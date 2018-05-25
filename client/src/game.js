@@ -8,17 +8,43 @@ export default class Game extends Component {
             settingsCompleted: false,
             nrOfTeams: 2,
             timeLimit: 20,
+            currentlyPassed: 0,
+            nrOfPassesLimit: 2,
             nrOfRounds: 999,
-            gameIsActive: false
+            gameIsActive: false,
+            hideIncorrect: false,
+            currentWord: this.getRandomWord(),
+            currentTeamPoints: 10,
          };
          this.handleNrTeamsChange = this.handleNrTeamsChange.bind(this);
          this.handleNrRoundsChange = this.handleNrRoundsChange.bind(this);
          this.handleTimeLimitChange = this.handleTimeLimitChange.bind(this);
+         this.handleChangeWordCorrect = this.handleChangeWordCorrect.bind(this);
+         this.handleChangeWordIncorrect = this.handleChangeWordIncorrect.bind(this);
+         this.handleNrOfPassesLimitChange = this.handleNrOfPassesLimitChange.bind(this);
     }
 
     handleNrTeamsChange(event) { this.setState({ nrOfTeams: parseInt(event.target.value) }); }
     handleNrRoundsChange(event) { this.setState({ nrOfRounds: parseInt(event.target.value)}); }
     handleTimeLimitChange(event) { this.setState({ timeLimit: parseInt(event.target.value)}); }
+    handleNrOfPassesLimitChange(event) { this.setState({ nrOfPassesLimit: parseInt(event.target.value)}); }
+    handleChangeWordCorrect(event) {
+        this.setState({ currentWord: this.getRandomWord()});
+    }
+    handleChangeWordIncorrect(event) {
+        this.setState({ 
+            currentWord: this.getRandomWord(),
+            currentlyPassed: this.state.currentlyPassed + 1
+         });
+        if (this.state.currentlyPassed > 0) this.setState({ hideIncorrect: true });
+    }
+
+    wordList = ["Word", "New Word", "New New Word", "New New New Word"];
+
+    getRandomWord() {
+        const index = Math.round((Math.round(Math.random() * 10) / this.wordList.length));
+        return this.wordList[index];
+    }
 
     startGame() {
         this.setState({ gameIsActive: true });
@@ -32,58 +58,50 @@ export default class Game extends Component {
         }, this.state.timeLimit * 1000)
     }
 
+    renderOptions(from, to, skip) {
+        return [...Array(to + 1).keys()].filter(i => i >= from && (i + from) % skip === 0).map(i => <option value={i}>{i}</option>);
+    }
+
     render() {
         if (!this.state.settingsCompleted) { 
             return (<div>
                 <p>{getWord('selectTeamsText', this.props.locale)}:</p>
                 <select value={this.state.nrOfTeams} onChange={this.handleNrTeamsChange}>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
+                    {this.renderOptions(2, 7, 1)}
                 </select>
                 <p>{getWord('selectRoundsText', this.props.locale)}?</p>
                 <select value={this.state.nrOfRounds} onChange={this.handleNrRoundsChange}>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
+                    {this.renderOptions(5, 20, 5)}
                     <option value="999">{getWord('indefinite', this.props.locale)}</option>
                 </select>
                 <p>{getWord('selectTimeLimit', this.props.locale)}:</p>
                 <select value={this.state.timeLimit} onChange={this.handleTimeLimitChange}>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
-                    <option value="25">25</option>
-                    <option value="30">30</option>
-                    <option value="35">35</option>
-                    <option value="40">40</option>
-                    <option value="45">45</option>
-                    <option value="50">50</option>
-                    <option value="55">55</option>
-                    <option value="60">60</option>
+                    {this.renderOptions(15, 60, 5)}
+                    <option value="999">{getWord('none', this.props.locale)}</option>
+                </select>
+                <p>{getWord('selectNumberOfPasses', this.props.locale)}:</p>
+                <select value={this.state.nrOfPassesLimit} onChange={this.handleNrOfPassesLimitChange}>
+                    {this.renderOptions(0, 2, 1)}
                     <option value="999">{getWord('none', this.props.locale)}</option>
                 </select>
                 <br />
                 <button onClick={() => this.setState({ 
                     settingsCompleted: true,
                     currentTeam: 1,
-                    }) }>Done? Start playing!</button>
+                    }) }>{getWord('finishedWithSettings', this.props.locale)}!</button>
               </div>)
         }
         return <div>
             {!this.state.gameIsActive ? <div>
-                <p>Get ready Team {this.state.currentTeam}</p>
-                <button onClick={() => this.startGame()}>Begin</button>
+                <p>{getWord('getReadyTeam', this.props.locale)} {this.state.currentTeam}</p>
+                <button onClick={() => this.startGame()}>{getWord('begin', this.props.locale)}</button>
             </div> : null}
             {this.state.gameIsActive ? <div>
-                <p>Current team: {this.state.currentTeam}</p>
-                <p>Current team's points: 10</p>
-                <h1>Word</h1>
-                <button>Correct</button>
-                <button>Incorrect</button>
+                <p>{getWord('currentTeam', this.props.locale)}: {this.state.currentTeam}</p>
+                <p>{getWord('currentTeamPoints', this.props.locale)}: {this.state.currentTeamPoints}</p>
+                <h1>{this.state.currentWord}</h1>
+                <button onClick={this.handleChangeWordCorrect}>Correct</button>
+                {!this.state.hideIncorrect ? <button onClick={this.handleChangeWordIncorrect}>Incorrect</button> : null}
                 <h1>Time left: {this.state.timeLeft}</h1>
             </div> : null}
             </div>;
