@@ -1,0 +1,11 @@
+{
+    "welcomeText": "Välkommen till Med Andra Ord",
+    "getStartedText": "För att komma igång, vänligen välj ett språk",
+    "or": "eller",
+    "startPlayingText": "Klicka för att börja spela",
+    "selectTeamsText": "Välj antal lag som ska spela",
+    "selectRoundsText": "Hur många rundor vill ni spela",
+    "indefinite": "Oändligt",
+    "selectTimeLimit": "Välj en tidsgräns",
+    "none": "Ingen"
+}
