@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getWord } from './localizer';
+import textFile from './locales/swe-words';
 
 export default class Game extends Component {
     constructor(props, context) {
@@ -14,8 +15,9 @@ export default class Game extends Component {
             gameIsActive: false,
             hideIncorrect: false,
             currentWord: this.getRandomWord(),
-            currentTeamPoints: 10,
+            teams: new Map()
          };
+         for (let i = 1; i < this.state.nrOfTeams + 1; i++) this.state.teams.set(i, 0);
          this.handleNrTeamsChange = this.handleNrTeamsChange.bind(this);
          this.handleNrRoundsChange = this.handleNrRoundsChange.bind(this);
          this.handleTimeLimitChange = this.handleTimeLimitChange.bind(this);
@@ -29,7 +31,11 @@ export default class Game extends Component {
     handleTimeLimitChange(event) { this.setState({ timeLimit: parseInt(event.target.value)}); }
     handleNrOfPassesLimitChange(event) { this.setState({ nrOfPassesLimit: parseInt(event.target.value)}); }
     handleChangeWordCorrect(event) {
-        this.setState({ currentWord: this.getRandomWord()});
+        const points = this.state.teams.get(this.state.currentTeam);
+        this.state.teams.set(this.state.currentTeam, points + 1);
+        this.setState({ 
+            currentWord: this.getRandomWord(),
+        });
     }
     handleChangeWordIncorrect(event) {
         this.setState({ 
@@ -39,21 +45,25 @@ export default class Game extends Component {
         if (this.state.currentlyPassed > 0) this.setState({ hideIncorrect: true });
     }
 
-    wordList = ["Word", "New Word", "New New Word", "New New New Word"];
-
     getRandomWord() {
-        const index = Math.round((Math.round(Math.random() * 10) / this.wordList.length));
-        return this.wordList[index];
+        const index = Math.floor(Math.random() * textFile.length);
+        console.log(index);
+        return textFile[index];
     }
 
     startGame() {
         this.setState({ gameIsActive: true });
         this.setState({ timeLeft: this.state.timeLimit });
         const timer = setInterval(() => {
-            this.setState({ timeLeft: this.state.timeLeft - 1})
+            this.setState({ timeLeft: this.state.timeLeft - 1 })
         }, 1000);
         setTimeout(() => {
-            this.setState({ gameIsActive: false });
+            this.setState({ 
+                gameIsActive: false,
+                currentlyPassed: 0,
+                hideIncorrect: false,
+                currentTeam: (this.state.currentTeam % this.state.nrOfTeams) + 1
+             });
             clearInterval(timer);
         }, this.state.timeLimit * 1000)
     }
@@ -98,7 +108,7 @@ export default class Game extends Component {
             </div> : null}
             {this.state.gameIsActive ? <div>
                 <p>{getWord('currentTeam', this.props.locale)}: {this.state.currentTeam}</p>
-                <p>{getWord('currentTeamPoints', this.props.locale)}: {this.state.currentTeamPoints}</p>
+                <p>{getWord('currentTeamPoints', this.props.locale)}: {this.state.teams.get(this.state.currentTeam)}</p>
                 <h1>{this.state.currentWord}</h1>
                 <button onClick={this.handleChangeWordCorrect}>Correct</button>
                 {!this.state.hideIncorrect ? <button onClick={this.handleChangeWordIncorrect}>Incorrect</button> : null}
