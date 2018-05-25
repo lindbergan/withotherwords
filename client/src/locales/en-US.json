@@ -1,0 +1,11 @@
+{
+    "welcomeText": "Welcome to With Other Words",
+    "getStartedText": "To get started, please select a language",
+    "or": "or",
+    "startPlayingText": "Click to start playing",
+    "selectTeamsText": "Please select how many teams should be playing",
+    "selectRoundsText": "How many rounds do you want to play",
+    "indefinite": "Indefinite",
+    "selectTimeLimit": "Choose a time limit",
+    "none": "None"
+}
