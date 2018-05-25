@@ -7,5 +7,11 @@
     "selectRoundsText": "Hur många rundor vill ni spela",
     "indefinite": "Oändligt",
     "selectTimeLimit": "Välj en tidsgräns",
-    "none": "Ingen"
+    "none": "Ingen",
+    "selectNumberOfPasses": "Välj hur många passar man får göra",
+    "finishedWithSettings": "Klar? Starta spelet",
+    "getReadyTeam": "Redo Lag",
+    "currentTeam": "Aktuellt lag",
+    "currentTeamPoints": "Aktuella lagets poäng",
+    "begin": "Starta"
 }
