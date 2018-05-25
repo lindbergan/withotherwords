@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from 'react-bootstrap';
 import { getWord } from './localizer';
 import textFile from './locales/swe-words';
 
@@ -47,7 +48,6 @@ export default class Game extends Component {
 
     getRandomWord() {
         const index = Math.floor(Math.random() * textFile.length);
-        console.log(index);
         return textFile[index];
     }
 
@@ -95,23 +95,23 @@ export default class Game extends Component {
                     <option value="999">{getWord('none', this.props.locale)}</option>
                 </select>
                 <br />
-                <button onClick={() => this.setState({ 
+                <Button bsStyle="primary" onClick={() => this.setState({ 
                     settingsCompleted: true,
                     currentTeam: 1,
-                    }) }>{getWord('finishedWithSettings', this.props.locale)}!</button>
+                    }) }>{getWord('finishedWithSettings', this.props.locale)}!</Button>
               </div>)
         }
         return <div>
             {!this.state.gameIsActive ? <div>
                 <p>{getWord('getReadyTeam', this.props.locale)} {this.state.currentTeam}</p>
-                <button onClick={() => this.startGame()}>{getWord('begin', this.props.locale)}</button>
+                <Button bsStyle="success" onClick={() => this.startGame()}>{getWord('begin', this.props.locale)}</Button>
             </div> : null}
             {this.state.gameIsActive ? <div>
                 <p>{getWord('currentTeam', this.props.locale)}: {this.state.currentTeam}</p>
                 <p>{getWord('currentTeamPoints', this.props.locale)}: {this.state.teams.get(this.state.currentTeam)}</p>
                 <h1>{this.state.currentWord}</h1>
-                <button onClick={this.handleChangeWordCorrect}>Correct</button>
-                {!this.state.hideIncorrect ? <button onClick={this.handleChangeWordIncorrect}>Incorrect</button> : null}
+                <Button bsStyle="success" onClick={this.handleChangeWordCorrect}>Correct</Button>
+                {!this.state.hideIncorrect ? <Button bsStyle="danger" onClick={this.handleChangeWordIncorrect}>Incorrect</Button> : null}
                 <h1>Time left: {this.state.timeLeft}</h1>
             </div> : null}
             </div>;
