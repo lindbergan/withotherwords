@@ -1,5 +1,5 @@
-import Swedish from './locales/sv-SE';
-import English from './locales/en-US';
+import Swedish from '../locales/sv-SE';
+import English from '../locales/en-US';
 
 export function getWord(word, locale) {
     switch(locale) {

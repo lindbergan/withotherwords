@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import { getWord } from './localizer';
-import textFile from './locales/swe-words';
+import { getWord } from '../utils/localizer';
+import textFile from '../locales/swe-words';
 
 export default class Game extends Component {
     constructor(props, context) {
@@ -27,10 +27,10 @@ export default class Game extends Component {
          this.handleNrOfPassesLimitChange = this.handleNrOfPassesLimitChange.bind(this);
     }
 
-    handleNrTeamsChange(event) { this.setState({ nrOfTeams: parseInt(event.target.value) }); }
-    handleNrRoundsChange(event) { this.setState({ nrOfRounds: parseInt(event.target.value)}); }
-    handleTimeLimitChange(event) { this.setState({ timeLimit: parseInt(event.target.value)}); }
-    handleNrOfPassesLimitChange(event) { this.setState({ nrOfPassesLimit: parseInt(event.target.value)}); }
+    handleNrTeamsChange(event) { this.setState({ nrOfTeams: event.target.value }); }
+    handleNrRoundsChange(event) { this.setState({ nrOfRounds: event.target.value }); }
+    handleTimeLimitChange(event) { this.setState({ timeLimit: event.target.value }); }
+    handleNrOfPassesLimitChange(event) { this.setState({ nrOfPassesLimit: event.target.value }); }
     handleChangeWordCorrect(event) {
         const points = this.state.teams.get(this.state.currentTeam);
         this.state.teams.set(this.state.currentTeam, points + 1);
