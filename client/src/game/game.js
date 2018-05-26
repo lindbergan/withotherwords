@@ -85,7 +85,7 @@ export default class Game extends Component {
     resetForNextRound() {
         this.setState({
             gameIsActive: false,
-            hideIfTooManyPasses: false,
+            hideIfTooManyPasses: this.props.nrOfPassesLimit === 0,
             currentlyPassed: 0,
             timeLeft: this.props.timeLimit
         });
