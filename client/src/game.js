@@ -110,9 +110,9 @@ export default class Game extends Component {
                 <p>{getWord('currentTeam', this.props.locale)}: {this.state.currentTeam}</p>
                 <p>{getWord('currentTeamPoints', this.props.locale)}: {this.state.teams.get(this.state.currentTeam)}</p>
                 <h1>{this.state.currentWord}</h1>
-                <Button bsStyle="success" onClick={this.handleChangeWordCorrect}>Correct</Button>
-                {!this.state.hideIncorrect ? <Button bsStyle="danger" onClick={this.handleChangeWordIncorrect}>Incorrect</Button> : null}
-                <h1>Time left: {this.state.timeLeft}</h1>
+                <Button bsStyle="success" onClick={this.handleChangeWordCorrect}>{getWord('correct', this.props.locale)}</Button>
+                {!this.state.hideIncorrect ? <Button bsStyle="danger" onClick={this.handleChangeWordIncorrect}>{getWord('incorrect', this.props.locale)}</Button> : null}
+                <h4>{getWord('timeLeft', this.props.locale)}: {this.state.timeLeft}</h4>
             </div> : null}
             </div>;
     }

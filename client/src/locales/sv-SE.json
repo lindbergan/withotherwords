@@ -13,5 +13,8 @@
     "getReadyTeam": "Redo Lag",
     "currentTeam": "Aktuellt lag",
     "currentTeamPoints": "Aktuella lagets poäng",
-    "begin": "Starta"
+    "begin": "Starta",
+    "timeLeft": "Tid kvar",
+    "correct": "Rätt",
+    "incorrect": "Fel"
 }
