@@ -13,5 +13,8 @@
     "getReadyTeam": "Get ready Team",
     "currentTeam": "Current team",
     "currentTeamPoints": "Current team's points",
-    "begin": "Begin"
+    "begin": "Begin",
+    "timeLeft": "Tid kvar",
+    "correct": "Correct",
+    "incorrect": "Incorrect"
 }
