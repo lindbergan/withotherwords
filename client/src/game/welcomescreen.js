@@ -17,7 +17,7 @@ export const WelcomeScreen = (props) => {
     return (<div>
         <h1>{getWord('welcomeText', props.locale)}</h1>
         { renderChooseLanguage() }
-        <Link to="/game">
+        <Link to="/settings">
             <Button bsStyle="primary"
                     bsSize="large"
             >{getWord('startPlayingText', props.locale)}
