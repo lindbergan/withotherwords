@@ -16,5 +16,9 @@
     "begin": "Starta",
     "timeLeft": "Tid kvar",
     "correct": "Rätt",
-    "incorrect": "Fel"
+    "incorrect": "Fel",
+    "getReadyForNextRound": "Runda",
+    "playAgain": "Vill ni spela igen",
+    "teams": "Lag",
+    "points": "Poäng"
 }

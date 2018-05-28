@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import { getWord } from '../utils/localizer';
 import sweTextFile from '../locales/swe-words';
 import engTextFile from '../locales/eng-words';
+import { Link } from 'react-router-dom';
 
 export default class Game extends Component {
     constructor(props, context) {
@@ -19,8 +20,10 @@ export default class Game extends Component {
             currentTeam: 1,
             currentWord: this.getRandomWord(),
             currentlyPassed: 0,
-            timeLeft: props.timeLimit
-         };
+            timeLeft: props.timeLimit,
+            totalRoundNr: 1,
+            roundNr: 1
+        };
         this.handleChangeWordCorrect = this.handleChangeWordCorrect.bind(this);
         this.handleChangeWordIncorrect = this.handleChangeWordIncorrect.bind(this);
     }
@@ -40,7 +43,6 @@ export default class Game extends Component {
     }
 
     handleChangeWordCorrect(event) {
-        console.log(this);
         const currentTeamsNewPoints = this.state.currentTeamsPoints + 1;
         this.setState({ currentTeamsPoints: currentTeamsNewPoints })
         this.nextWord();
@@ -72,9 +74,7 @@ export default class Game extends Component {
     }
 
     startGame() {
-        this.setState({
-            gameIsActive: true
-        });
+        this.setState({ gameIsActive: true });
         const timer = this.startTimer();
         setTimeout(() => {
             this.resetForNextRound();
@@ -87,7 +87,9 @@ export default class Game extends Component {
             gameIsActive: false,
             hideIfTooManyPasses: this.props.nrOfPassesLimit === 0,
             currentlyPassed: 0,
-            timeLeft: this.props.timeLimit
+            timeLeft: this.props.timeLimit,
+            totalRoundNr: this.state.totalRoundNr + 1,
+            roundNr: Math.ceil((this.state.totalRoundNr + 1) / this.props.nrOfTeams)
         });
         this.nextTeam();
     }
@@ -97,21 +99,54 @@ export default class Game extends Component {
         const newCurrentTeamNr = (this.state.currentTeam % this.props.nrOfTeams) + 1;
         this.setState({ 
             currentTeam : newCurrentTeamNr,
-            currentTeamsPoints: this.state.teams.get(newCurrentTeamNr)
-         })
+            currentTeamsPoints: this.state.teams.get(newCurrentTeamNr),
+            currentWord: this.getRandomWord()
+         });
+    }
+
+    renderTeamPoints() {
+        if (this.state.teams) {
+            let listOfElements = [];
+            for (let [id, points] of this.state.teams) {
+                listOfElements.push(<p key={id}>{getWord('teams', this.props.locale)}: {id} {getWord('points', this.props.locale)}: {points}</p>)
+            }
+            return listOfElements;
+        }
+        return null;
+    }
+
+    gameIsFinished() {
+        return (<div>
+            {this.renderTeamPoints()}
+            <Link to="/">
+                <Button bsStyle="success" bsSize="large">{getWord('playAgain', this.props.locale)}?</Button>
+            </Link>
+        </div>)
+    }
+
+    renderRoundText() {
+        return <p>{getWord('getReadyForNextRound', this.props.locale)} {this.state.roundNr}</p>
     }
 
     render() {
         if (!this.state.gameIsActive) {
-            return (<div>
-            <p>{getWord('getReadyTeam', this.props.locale)} {this.state.currentTeam}</p>
-            <Button bsStyle="success" onClick={() => this.startGame()}>{getWord('begin', this.props.locale)}</Button>
-            </div>)
+            if (this.state.roundNr - 1 === this.props.nrOfRounds) {
+                return this.gameIsFinished();
+            }
+            else {
+                return (<div>
+                <p>{getWord('getReadyTeam', this.props.locale)} {this.state.currentTeam}</p>
+                {this.renderRoundText()}
+                {this.renderTeamPoints()}
+                <Button bsStyle="success" onClick={() => this.startGame()}>{getWord('begin', this.props.locale)}</Button>
+                </div>)
+            }
         }
 
         return (<div>
             <p>{getWord('currentTeam', this.props.locale)}: {this.state.currentTeam}</p>
             <p>{getWord('currentTeamPoints', this.props.locale)}: {this.state.currentTeamsPoints}</p>
+            {this.renderRoundText()}
             <h1>{this.state.currentWord}</h1>
             <Button bsStyle="success" onClick={this.handleChangeWordCorrect}>{getWord('correct', this.props.locale)}</Button>
             {!this.state.hideIfTooManyPasses ? <Button bsStyle="danger" onClick={this.handleChangeWordIncorrect}>{getWord('incorrect', this.props.locale)}</Button> : null}
