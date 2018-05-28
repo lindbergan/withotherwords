@@ -16,5 +16,9 @@
     "begin": "Begin",
     "timeLeft": "Time left",
     "correct": "Correct",
-    "incorrect": "Incorrect"
+    "incorrect": "Incorrect",
+    "getReadyForNextRound": "Turn",
+    "playAgain": "Want to play again",
+    "teams": "Teams",
+    "points": "Points"
 }
