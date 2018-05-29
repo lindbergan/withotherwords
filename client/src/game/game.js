@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import { getWord } from '../utils/localizer';
 import sweTextFile from '../locales/swe-words';
 import engTextFile from '../locales/eng-words';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 export default class Game extends Component {
     constructor(props, context) {
@@ -129,11 +129,16 @@ export default class Game extends Component {
     }
 
     render() {
+        if (!this.props.settingsAreSet) {
+            return <Redirect to="/" />
+        }
         if (!this.state.gameIsActive) {
             if (this.state.roundNr - 1 === this.props.nrOfRounds) {
+                console.log('Finished!')
                 return this.gameIsFinished();
             }
             else {
+                console.log('Not Finished!')
                 return (<div>
                 <p>{getWord('getReadyTeam', this.props.locale)} {this.state.currentTeam}</p>
                 {this.renderRoundText()}
