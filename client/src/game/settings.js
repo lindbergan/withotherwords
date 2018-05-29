@@ -27,7 +27,6 @@ export const Settings = props => {
         <select value={props.state.timeLimit}
                 onChange={(e) => props.handleTimeLimitChange(e)}>
             {renderOptions(15, 60, 5)}
-            <option value="999">{getWord('none', props.locale)}</option>
         </select>
         <p>{getWord('selectNumberOfPasses', props.locale)}:</p>
         <select value={props.state.nrOfPassesLimit}

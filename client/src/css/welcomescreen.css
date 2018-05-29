@@ -1,6 +1,8 @@
 .welcomeText {
     margin: 0 auto;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-left: 50px;
+    padding-right: 50px;
     font-weight: bolder;
 }
 
@@ -9,8 +11,18 @@
     margin: 0 auto;
 }
 
+.getStartedText {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
 .beginButton {
     margin: 0 auto;
+    min-width: 225px;
+}
+
+.beginButton > button {
+    min-width: 250px;
 }
 
 .chooseLanguage {
@@ -20,7 +32,7 @@
 
 .centered {
     position: absolute;
-    top: 40%;
+    top: 15%;
 }
 
 .spacing {
@@ -29,6 +41,13 @@
 
 .border-black {
     border: 3px solid black;
+    border-radius: 50%;
+    margin-right: 25px;
+    cursor: pointer;
+}
+
+.selected {
+    border: 3px solid darkred;
     border-radius: 50%;
     margin-right: 25px;
     cursor: pointer;
