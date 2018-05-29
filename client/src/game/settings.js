@@ -35,7 +35,7 @@ export const Settings = props => {
         </select>
         <br />
         <Link to="/game">
-            <Button bsStyle="primary">
+            <Button bsStyle="primary" onClick={() => props.handleSettingsAreSet()}>
             {getWord('finishedWithSettings', props.locale)}!</Button>
         </Link>
       </div>)

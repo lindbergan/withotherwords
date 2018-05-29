@@ -13,19 +13,26 @@ class App extends Component {
       nrOfTeams: 2,
       nrOfRounds: 5,
       timeLimit: 15,
-      nrOfPassesLimit: 0
+      nrOfPassesLimit: 0,
+      settingsAreSet: false
     };
     this.changeLanguage = this.changeLanguage.bind(this);
     this.handleNrTeamsChange = this.handleNrTeamsChange.bind(this);
     this.handleNrRoundsChange = this.handleNrRoundsChange.bind(this);
     this.handleTimeLimitChange = this.handleTimeLimitChange.bind(this);
     this.handleNrOfPassesLimitChange = this.handleNrOfPassesLimitChange.bind(this);
+    this.handleSettingsAreSet = this.handleSettingsAreSet.bind(this);
   }
 
-  handleNrTeamsChange(event) { this.setState({ nrOfTeams: event.target.value }); }
-  handleNrRoundsChange(event) { this.setState({ nrOfRounds: event.target.value }); }
-  handleTimeLimitChange(event) { this.setState({ timeLimit: event.target.value }); }
-  handleNrOfPassesLimitChange(event) { this.setState({ nrOfPassesLimit: event.target.value }); }
+  componentWillUnmount() {
+    this.setState({ settingsAreSet: false })
+  }
+
+  handleNrTeamsChange(event) { this.setState({ nrOfTeams: parseInt(event.target.value) }); }
+  handleNrRoundsChange(event) { this.setState({ nrOfRounds: parseInt(event.target.value) }); }
+  handleTimeLimitChange(event) { this.setState({ timeLimit: parseInt(event.target.value) }); }
+  handleNrOfPassesLimitChange(event) { this.setState({ nrOfPassesLimit: parseInt(event.target.value) }); }
+  handleSettingsAreSet() { this.setState({ settingsAreSet: true }); }
 
   changeLanguage(locale) { this.setState({ locale }); }
 
@@ -48,6 +55,7 @@ class App extends Component {
                     handleNrRoundsChange={this.handleNrRoundsChange}
                     handleTimeLimitChange={this.handleTimeLimitChange}
                     handleNrOfPassesLimitChange={this.handleNrOfPassesLimitChange}
+                    handleSettingsAreSet={this.handleSettingsAreSet}
                     />}
           />
           <Route path="/game"
@@ -57,6 +65,7 @@ class App extends Component {
                     nrOfRounds={this.state.nrOfRounds}
                     timeLimit={this.state.timeLimit}
                     nrOfPassesLimit={this.state.nrOfPassesLimit}
+                    settingsAreSet={this.state.settingsAreSet}
                     />}
           />
         </div>
