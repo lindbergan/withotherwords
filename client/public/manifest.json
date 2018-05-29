@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Med Andra Ord",
+  "name": "Med Andra Ord / With Other Words",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,8 +8,9 @@
       "type": "image/x-icon"
     }
   ],
-  "start_url": "./index.html",
-  "display": "standalone",
+  "start_url": "",
+  "display": "fullscreen",
   "theme_color": "#000000",
+  "orientation": "portrait",
   "background_color": "#ffffff"
 }
