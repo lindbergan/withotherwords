@@ -134,11 +134,9 @@ export default class Game extends Component {
         }
         if (!this.state.gameIsActive) {
             if (this.state.roundNr - 1 === this.props.nrOfRounds) {
-                console.log('Finished!')
                 return this.gameIsFinished();
             }
             else {
-                console.log('Not Finished!')
                 return (<div>
                 <p>{getWord('getReadyTeam', this.props.locale)} {this.state.currentTeam}</p>
                 {this.renderRoundText()}
