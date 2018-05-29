@@ -12,8 +12,8 @@ class App extends Component {
       locale: 'sv-SE',
       nrOfTeams: 2,
       nrOfRounds: 5,
-      timeLimit: 15,
-      nrOfPassesLimit: 0,
+      timeLimit: 30,
+      nrOfPassesLimit: 2,
       settingsAreSet: false
     };
     this.changeLanguage = this.changeLanguage.bind(this);

@@ -12,6 +12,8 @@
 .settings-text {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bolder;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 select {

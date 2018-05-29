@@ -130,9 +130,9 @@ export default class Game extends Component {
     }
 
     render() {
-        /*if (!this.props.settingsAreSet) {
+        if (!this.props.settingsAreSet) {
             return <Redirect to="/" />
-        }*/
+        }
         if (!this.state.gameIsActive) {
             if (this.state.roundNr - 1 === this.props.nrOfRounds) {
                 return this.gameIsFinished();
