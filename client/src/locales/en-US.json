@@ -1,5 +1,5 @@
 {
-    "welcomeText": "Welcome to With Other Words",
+    "welcomeText": "With Other Words",
     "getStartedText": "To get started, please select a language",
     "or": "or",
     "startPlayingText": "Click to start playing",
@@ -20,5 +20,6 @@
     "getReadyForNextRound": "Turn",
     "playAgain": "Want to play again",
     "teams": "Teams",
-    "points": "Points"
+    "points": "Points",
+    "settings": "Settings"
 }

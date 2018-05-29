@@ -28,10 +28,10 @@ class App extends Component {
     this.setState({ settingsAreSet: false })
   }
 
-  handleNrTeamsChange(event) { this.setState({ nrOfTeams: parseInt(event.target.value) }); }
-  handleNrRoundsChange(event) { this.setState({ nrOfRounds: parseInt(event.target.value) }); }
-  handleTimeLimitChange(event) { this.setState({ timeLimit: parseInt(event.target.value) }); }
-  handleNrOfPassesLimitChange(event) { this.setState({ nrOfPassesLimit: parseInt(event.target.value) }); }
+  handleNrTeamsChange(event) { this.setState({ nrOfTeams: parseInt(event.target.value, 10) }); }
+  handleNrRoundsChange(event) { this.setState({ nrOfRounds: parseInt(event.target.value, 10) }); }
+  handleTimeLimitChange(event) { this.setState({ timeLimit: parseInt(event.target.value, 10) }); }
+  handleNrOfPassesLimitChange(event) { this.setState({ nrOfPassesLimit: parseInt(event.target.value, 10) }); }
   handleSettingsAreSet() { this.setState({ settingsAreSet: true }); }
 
   changeLanguage(locale) { this.setState({ locale }); }

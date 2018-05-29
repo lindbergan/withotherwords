@@ -1,0 +1,18 @@
+.titleText {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bolder;
+}
+
+.centered > * {
+    margin: 0 auto;
+    display: table;
+    padding: 10px;
+}
+
+.theWord {
+    font-size: 55px;
+    color: darkred;
+    font-weight: bolder;
+    padding-bottom: 30px;
+    overflow-wrap: break-word;
+}

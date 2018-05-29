@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Grid } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getWord } from '../utils/localizer';
+import '../css/settings.css';
 
 export const Settings = props => {
 
@@ -9,7 +10,8 @@ export const Settings = props => {
         return [...Array(to + 1).keys()].filter(i => i >= from && (i + from) % skip === 0).map(i => <option value={i} key={i}>{i}</option>);
     }
 
-    return (<div>
+    return (<Grid fluid={true} className="centered-settings">
+        <h1 className="settings-text">{getWord('settings', props.locale)}</h1>
         <p>{getWord('selectTeamsText', props.locale)}:</p>
         <select value={props.state.nrOfTeams} 
                 onChange={(e) => props.handleNrTeamsChange(e)}>
@@ -30,7 +32,7 @@ export const Settings = props => {
         <p>{getWord('selectNumberOfPasses', props.locale)}:</p>
         <select value={props.state.nrOfPassesLimit}
                 onChange={(e) => props.handleNrOfPassesLimitChange(e)}>
-            {renderOptions(0, 2, 1)}
+            {renderOptions(0, 10, 1)}
             <option value="999">{getWord('indefinite', props.locale)}</option>
         </select>
         <br />
@@ -38,5 +40,5 @@ export const Settings = props => {
             <Button bsStyle="primary" onClick={() => props.handleSettingsAreSet()}>
             {getWord('finishedWithSettings', props.locale)}!</Button>
         </Link>
-      </div>)
+      </Grid>)
 };

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Grid } from 'react-bootstrap';
 import { getWord } from '../utils/localizer';
 import sweTextFile from '../locales/swe-words';
 import engTextFile from '../locales/eng-words';
 import { Link, Redirect } from 'react-router-dom';
+import '../css/game.css';
 
 export default class Game extends Component {
     constructor(props, context) {
@@ -108,7 +109,7 @@ export default class Game extends Component {
         if (this.state.teams) {
             let listOfElements = [];
             for (let [id, points] of this.state.teams) {
-                listOfElements.push(<p key={id}>{getWord('teams', this.props.locale)}: {id} {getWord('points', this.props.locale)}: {points}</p>)
+                listOfElements.push(<h4 key={id}>{getWord('teams', this.props.locale)}: {id} - {getWord('points', this.props.locale)}: {points}</h4>)
             }
             return listOfElements;
         }
@@ -125,7 +126,7 @@ export default class Game extends Component {
     }
 
     renderRoundText() {
-        return <p>{getWord('getReadyForNextRound', this.props.locale)} {this.state.roundNr}</p>
+        return <h3>{getWord('getReadyForNextRound', this.props.locale)} {this.state.roundNr}</h3>
     }
 
     render() {
@@ -137,23 +138,25 @@ export default class Game extends Component {
                 return this.gameIsFinished();
             }
             else {
-                return (<div>
-                <p>{getWord('getReadyTeam', this.props.locale)} {this.state.currentTeam}</p>
-                {this.renderRoundText()}
-                {this.renderTeamPoints()}
-                <Button bsStyle="success" onClick={() => this.startGame()}>{getWord('begin', this.props.locale)}</Button>
-                </div>)
+                return (<Grid fluid={true} className="centered">
+                    <h1 className="titleText">{getWord('welcomeText', this.props.locale)}</h1>
+                    <h2>{getWord('getReadyTeam', this.props.locale)} {this.state.currentTeam}</h2>
+                    {this.renderRoundText()}
+                    {this.renderTeamPoints()}
+                    <Button bsStyle="success" onClick={() => this.startGame()}>{getWord('begin', this.props.locale)}</Button>
+                </Grid>)
             }
         }
 
-        return (<div>
-            <p>{getWord('currentTeam', this.props.locale)}: {this.state.currentTeam}</p>
-            <p>{getWord('currentTeamPoints', this.props.locale)}: {this.state.currentTeamsPoints}</p>
+        return (<Grid fluid={true} className="centered">
+            <h1 className="titleText">{getWord('welcomeText', this.props.locale)}</h1>
+            <h4>{getWord('currentTeam', this.props.locale)}: {this.state.currentTeam}</h4>
+            <h4>{getWord('currentTeamPoints', this.props.locale)}: {this.state.currentTeamsPoints}</h4>
             {this.renderRoundText()}
-            <h1>{this.state.currentWord}</h1>
+            <h1 class="theWord">{this.state.currentWord}</h1>
             <Button bsStyle="success" onClick={this.handleChangeWordCorrect}>{getWord('correct', this.props.locale)}</Button>
             {!this.state.hideIfTooManyPasses ? <Button bsStyle="danger" onClick={this.handleChangeWordIncorrect}>{getWord('incorrect', this.props.locale)}</Button> : null}
-            <h4>{getWord('timeLeft', this.props.locale)}: {this.state.timeLeft}</h4>
-        </div>)
+            <h4>{getWord('timeLeft', this.props.locale)}: {this.state.timeLeft} s</h4>
+        </Grid>)
     }
 }
