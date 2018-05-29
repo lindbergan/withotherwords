@@ -1,5 +1,5 @@
 {
-    "welcomeText": "Välkommen till Med Andra Ord",
+    "welcomeText": "Med Andra Ord",
     "getStartedText": "För att komma igång, vänligen välj ett språk",
     "or": "eller",
     "startPlayingText": "Klicka för att börja spela",
@@ -20,5 +20,6 @@
     "getReadyForNextRound": "Runda",
     "playAgain": "Vill ni spela igen",
     "teams": "Lag",
-    "points": "Poäng"
+    "points": "Poäng",
+    "settings": "Inställningar"
 }

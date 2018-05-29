@@ -1,0 +1,21 @@
+.centered-settings {
+    position: absolute;
+    top: 30%;
+    margin: 0 auto;
+    display: table;
+}
+
+.centered-settings > * {
+    margin: 0 auto;
+    display: table;
+    padding: 15px;
+}
+
+.settings-text {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bolder;
+}
+
+select {
+    text-align-last: center;
+}
