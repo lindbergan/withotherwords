@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Grid } from 'react-bootstrap';
 import { getWord } from '../utils/localizer';
+import ReactGA from 'react-ga';
 import sweTextFile from '../locales/swe-words';
 import engTextFile from '../locales/eng-words';
 import { Link, Redirect } from 'react-router-dom';
@@ -27,6 +28,10 @@ export default class Game extends Component {
         };
         this.handleChangeWordCorrect = this.handleChangeWordCorrect.bind(this);
         this.handleChangeWordIncorrect = this.handleChangeWordIncorrect.bind(this);
+        if (process.env.NODE_ENV === 'production') {
+            ReactGA.initialize('UA-117093777-2');
+            ReactGA.pageview(window.location.pathname + window.location.search);
+        }
     }
 
     getCorrectTextFile() {

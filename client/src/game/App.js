@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Game from './game';
 import { Settings } from './settings';
 import { WelcomeScreen } from './welcomescreen';
+import ReactGA from 'react-ga';
 
 class App extends Component {
 
@@ -22,6 +23,10 @@ class App extends Component {
     this.handleTimeLimitChange = this.handleTimeLimitChange.bind(this);
     this.handleNrOfPassesLimitChange = this.handleNrOfPassesLimitChange.bind(this);
     this.handleSettingsAreSet = this.handleSettingsAreSet.bind(this);
+    if (process.env.NODE_ENV === 'production') {
+      ReactGA.initialize('UA-117093777-2');
+      ReactGA.pageview(window.location.pathname + window.location.search);
+    }
   }
 
   componentWillUnmount() {

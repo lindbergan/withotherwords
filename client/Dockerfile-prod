@@ -1,0 +1,14 @@
+FROM node:10.1.0
+
+RUN mkdir -p /app
+WORKDIR /app
+
+ADD package.json /app/package.json
+RUN yarn --production --no-lockfile
+ADD src/. /app/src
+ADD public/. /app/public
+RUN yarn global add serve
+
+EXPOSE 3000
+
+CMD CHOKIDAR_USEPOLLING=true yarn prod-start
