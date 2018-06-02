@@ -138,7 +138,7 @@ export default class Game extends Component {
                 return this.gameIsFinished();
             }
             else {
-                return (<Grid className="centeredGame">
+                return (<Grid className="centeredGame" fluid={true}>
                     <h1 className="titleText">{getWord('welcomeText', this.props.locale)}</h1>
                     <h2>{getWord('getReadyTeam', this.props.locale)} {this.state.currentTeam}</h2>
                     {this.renderRoundText()}
@@ -148,7 +148,7 @@ export default class Game extends Component {
             }
         }
 
-        return (<Grid className="centeredGame">
+        return (<Grid className="centeredGame" fluid={true}>
             <h1 className="titleText">{getWord('welcomeText', this.props.locale)}</h1>
             <h4>{getWord('currentTeam', this.props.locale)}: {this.state.currentTeam}</h4>
             <h4>{getWord('currentTeamPoints', this.props.locale)}: {this.state.currentTeamsPoints}</h4>
