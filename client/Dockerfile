@@ -1,11 +1,13 @@
 FROM node:10.1.0
 
-ADD . /usr/app/
+RUN mkdir -p /app
+WORKDIR /app
 
-WORKDIR /usr/app
-
-RUN npm install
+ADD package.json /app/package.json
+RUN yarn
+ADD src/. /app/src
+ADD public/. /app/public
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD CHOKIDAR_USEPOLLING=true yarn start
