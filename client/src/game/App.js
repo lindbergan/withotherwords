@@ -12,7 +12,7 @@ class App extends Component {
       locale: 'sv-SE',
       nrOfTeams: 2,
       nrOfRounds: 5,
-      timeLimit: 30,
+      timeLimit: 45,
       nrOfPassesLimit: 2,
       settingsAreSet: false,
     };
