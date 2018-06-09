@@ -1,9 +1,21 @@
 .welcomeText {
     margin: 0 auto;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding-left: 75px;
-    padding-right: 75px;
     font-weight: bolder;
+    text-align: center;
+}
+
+h1.welcomeText {
+    font-size: 4.0vmax;
+}
+
+@media screen and (max-width: 600px) {
+    h1.welcomeText {
+        font-size: 6.0vmax;
+    }
+    .getStartedText {
+        font-size: 3.0vmax;
+    }
 }
 
 .centeredImages {
@@ -15,6 +27,8 @@
     padding-left: 50px;
     padding-right: 50px;
     margin-bottom: 25px !important;
+    font-size: 1.5vmax;
+    text-align: center;
 }
 
 .beginButton {
