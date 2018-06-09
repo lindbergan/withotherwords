@@ -39,8 +39,7 @@ export default class Game extends Component {
             timeLeft: props.timeLimit,
             totalRoundNr: 1,
             roundNr: 1,
-            disableBeginButton: false,
-            isAnimationRunning: false
+            disableBeginButton: false
         };
         this.handleChangeWordCorrect = this.handleChangeWordCorrect.bind(this);
         this.handleChangeWordIncorrect = this.handleChangeWordIncorrect.bind(this);
@@ -70,11 +69,19 @@ export default class Game extends Component {
         this.nextWord();
     }
 
+    resetAnimation() {
+        const oldElement = document.getElementById('wordEl');
+        if (oldElement) {
+            const parent = oldElement.parentNode;
+            const newElement = oldElement.cloneNode(true);
+            newElement.textContent = this.state.currentWord;
+            parent.replaceChild(newElement, oldElement);
+        }
+    }
+
     nextWord() {
-        this.setState({ 
-            currentWord: this.getRandomWord(),
-            isAnimationRunning: true
-         });
+        this.setState({ currentWord: this.getRandomWord(),
+            shouldResetAnimation: true });
      }
 
     hideIfTooManyPasses() {
@@ -145,7 +152,7 @@ export default class Game extends Component {
     }
 
     gameIsFinished() {
-        return (<Grid className="centeredGame" fluid={true}>
+        return (<Grid className="centeredGameEnd" fluid={true}>
             {this.renderTeamPoints()}
             <Link to="/">
                 <Button bsStyle="success" bsSize="large">{getWord('playAgain', this.props.locale)}?</Button>
@@ -172,12 +179,12 @@ export default class Game extends Component {
     }
 
     renderTheWord() {
-        if (this.state.isAnimationRunning) {
-            return <TheWordSlideIn id="theWordAnimation" className='theWord'>{this.state.currentWord}</TheWordSlideIn>;
-        } else {
-            return <h1 className='theWord'>{this.state.currentWord}</h1>;
+        if (this.state.shouldResetAnimation) { 
+            this.setState({ shouldResetAnimation: false });
+            this.resetAnimation();
         }
-    }
+        return <TheWordSlideIn className='theWord' id="wordEl" >{this.state.currentWord}</TheWordSlideIn>;
+     }
 
     render() {
         if (!this.props.settingsAreSet) {
