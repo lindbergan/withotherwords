@@ -5,11 +5,25 @@ import ReactGA from 'react-ga';
 import sweTextFile from '../locales/swe-words';
 import engTextFile from '../locales/eng-words';
 import { Link, Redirect } from 'react-router-dom';
+import styled, { keyframes } from 'styled-components';
 import '../css/game.css';
 
+const SlideInAnimation = keyframes`
+    from {
+        left: -100%;
+    }
+    to {
+        left: 0px;
+    }
+`;
+
+const TheWordSlideIn = styled.h1`
+    animation: 0.5s ${SlideInAnimation} linear;
+`;
+
 export default class Game extends Component {
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
         const teams = new Map();
         for (let i = 1; i < props.nrOfTeams + 1; i++) teams.set(i, 0); // Init team's score
         const hideIfTooManyPasses = props.nrOfPassesLimit < 1;
@@ -24,7 +38,9 @@ export default class Game extends Component {
             currentlyPassed: 0,
             timeLeft: props.timeLimit,
             totalRoundNr: 1,
-            roundNr: 1
+            roundNr: 1,
+            disableBeginButton: false,
+            isAnimationRunning: false
         };
         this.handleChangeWordCorrect = this.handleChangeWordCorrect.bind(this);
         this.handleChangeWordIncorrect = this.handleChangeWordIncorrect.bind(this);
@@ -48,19 +64,24 @@ export default class Game extends Component {
         this.setState(teams);
     }
 
-    handleChangeWordCorrect(event) {
+    handleChangeWordCorrect() {
         const currentTeamsNewPoints = this.state.currentTeamsPoints + 1;
         this.setState({ currentTeamsPoints: currentTeamsNewPoints })
         this.nextWord();
     }
 
-    nextWord() { this.setState({ currentWord: this.getRandomWord() }) }
+    nextWord() {
+        this.setState({ 
+            currentWord: this.getRandomWord(),
+            isAnimationRunning: true
+         });
+     }
 
     hideIfTooManyPasses() {
         if (this.state.currentlyPassed >= this.props.nrOfPassesLimit - 1) { this.setState({ hideIfTooManyPasses: true }) }
     }
 
-    handleChangeWordIncorrect(event) {
+    handleChangeWordIncorrect() {
         const newPassedAmount = this.state.currentlyPassed + 1;
         this.setState({ currentlyPassed: newPassedAmount })
         this.hideIfTooManyPasses();
@@ -95,9 +116,11 @@ export default class Game extends Component {
             currentlyPassed: 0,
             timeLeft: this.props.timeLimit,
             totalRoundNr: this.state.totalRoundNr + 1,
-            roundNr: Math.ceil((this.state.totalRoundNr + 1) / this.props.nrOfTeams)
+            roundNr: Math.ceil((this.state.totalRoundNr + 1) / this.props.nrOfTeams),
+            disableBeginButton: true
         });
         this.nextTeam();
+        this.startDisabledTimer();
     }
 
     nextTeam() {
@@ -122,16 +145,38 @@ export default class Game extends Component {
     }
 
     gameIsFinished() {
-        return (<div>
+        return (<Grid className="centeredGame" fluid={true}>
             {this.renderTeamPoints()}
             <Link to="/">
                 <Button bsStyle="success" bsSize="large">{getWord('playAgain', this.props.locale)}?</Button>
             </Link>
-        </div>)
+        </Grid>)
     }
 
     renderRoundText() {
         return <h3>{getWord('getReadyForNextRound', this.props.locale)} {this.state.roundNr}</h3>
+    }
+
+    startDisabledTimer() {
+        setTimeout(() => {
+            this.setState({ disableBeginButton: false })
+        }, 3000);
+    }
+
+    renderBeginButton() {
+        if (this.state.disableBeginButton) {
+            return <Button disabled className="beginButton" bsStyle="success" onClick={() => this.startGame()}>{getWord('begin', this.props.locale)}</Button>;
+        } else {
+            return <Button className="beginButton" bsStyle="success" onClick={() => this.startGame()}>{getWord('begin', this.props.locale)}</Button>;
+        }
+    }
+
+    renderTheWord() {
+        if (this.state.isAnimationRunning) {
+            return <TheWordSlideIn id="theWordAnimation" className='theWord'>{this.state.currentWord}</TheWordSlideIn>;
+        } else {
+            return <h1 className='theWord'>{this.state.currentWord}</h1>;
+        }
     }
 
     render() {
@@ -148,17 +193,35 @@ export default class Game extends Component {
                     <h2>{getWord('getReadyTeam', this.props.locale)} {this.state.currentTeam}</h2>
                     {this.renderRoundText()}
                     {this.renderTeamPoints()}
-                    <Button className="beginButton" bsStyle="success" onClick={() => this.startGame()}>{getWord('begin', this.props.locale)}</Button>
+                    {this.renderBeginButton()}
                 </Grid>)
             }
         }
+
+        /*
+            Event listeners to disable zoomimg
+        */
+
+        document.addEventListener('gesturestart', function (e) {
+            e.preventDefault();
+        });
+        document.addEventListener('touchmove', function(event) {
+            event = event.originalEvent || event;
+            if(event.scale !== 1) {
+                event.preventDefault();
+            }
+        }, false);
+
+        /* 
+          End of event listeners
+        */
 
         return (<Grid className="centeredGame" fluid={true}>
             <h1 className="titleText">{getWord('welcomeText', this.props.locale)}</h1>
             <h4>{getWord('currentTeam', this.props.locale)}: {this.state.currentTeam}</h4>
             <h4>{getWord('currentTeamPoints', this.props.locale)}: {this.state.currentTeamsPoints}</h4>
             {this.renderRoundText()}
-            <h1 className="theWord">{this.state.currentWord}</h1>
+            {this.renderTheWord()}
             <Button className="correctButton" bsStyle="success" onClick={this.handleChangeWordCorrect}>{getWord('correct', this.props.locale)}</Button>
             {!this.state.hideIfTooManyPasses ? <Button className="passButton" bsStyle="danger" onClick={this.handleChangeWordIncorrect}>{getWord('incorrect', this.props.locale)}</Button> : null}
             <h4>{getWord('timeLeft', this.props.locale)}: {this.state.timeLeft} s</h4>
