@@ -5,21 +5,7 @@ import ReactGA from 'react-ga';
 import sweTextFile from '../locales/swe-words';
 import engTextFile from '../locales/eng-words';
 import { Link, Redirect } from 'react-router-dom';
-import styled, { keyframes } from 'styled-components';
 import '../css/game.css';
-
-const SlideInAnimation = keyframes`
-    from {
-        left: -100%;
-    }
-    to {
-        left: 0px;
-    }
-`;
-
-const TheWordSlideIn = styled.h1`
-    animation: 0.5s ${SlideInAnimation} linear;
-`;
 
 export default class Game extends Component {
     constructor(props) {
@@ -69,19 +55,8 @@ export default class Game extends Component {
         this.nextWord();
     }
 
-    resetAnimation() {
-        const oldElement = document.getElementById('wordEl');
-        if (oldElement) {
-            const parent = oldElement.parentNode;
-            const newElement = oldElement.cloneNode(true);
-            newElement.textContent = this.state.currentWord;
-            parent.replaceChild(newElement, oldElement);
-        }
-    }
-
     nextWord() {
-        this.setState({ currentWord: this.getRandomWord(),
-            shouldResetAnimation: true });
+        this.setState({ currentWord: this.getRandomWord() });
      }
 
     hideIfTooManyPasses() {
@@ -179,11 +154,7 @@ export default class Game extends Component {
     }
 
     renderTheWord() {
-        if (this.state.shouldResetAnimation) { 
-            this.setState({ shouldResetAnimation: false });
-            this.resetAnimation();
-        }
-        return <TheWordSlideIn className='theWord' id="wordEl" >{this.state.currentWord}</TheWordSlideIn>;
+        return <h1 className='theWord'>{this.state.currentWord}</h1>;
      }
 
     render() {
