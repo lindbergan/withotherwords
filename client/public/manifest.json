@@ -4,135 +4,135 @@
   "default_locale": "sv",
   "icons": [{
     "src": "icons/favicons/Icon-16.png",
-    "sizes": "16x16",
+    "sizes": "16x13",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-20.png",
-    "sizes": "20x20",
+    "sizes": "20x16",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-29.png",
-    "sizes": "29x29",
+    "sizes": "29x24",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-32.png",
-    "sizes": "32x32",
+    "sizes": "32x26",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-36.png",
-    "sizes": "36x36",
+    "sizes": "36x29",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-40.png",
-    "sizes": "40x40",
+    "sizes": "40x33",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-48.png",
-    "sizes": "48x48",
+    "sizes": "48x39",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-50.png",
-    "sizes": "50x50",
+    "sizes": "50x41",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-55.png",
-    "sizes": "55x55",
+    "sizes": "55x45",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-57.png",
-    "sizes": "57x57",
+    "sizes": "57x47",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-58.png",
-    "sizes": "58x58",
+    "sizes": "58x48",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-60.png",
-    "sizes": "60x60",
+    "sizes": "60x49",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-64.png",
-    "sizes": "64x64",
+    "sizes": "64x53",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-72.png",
-    "sizes": "72x72",
+    "sizes": "72x59",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-76.png",
-    "sizes": "76x76",
+    "sizes": "76x63",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-80.png",
-    "sizes": "80x80",
+    "sizes": "80x66",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-87.png",
-    "sizes": "87x87",
+    "sizes": "87x72",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-88.png",
-    "sizes": "88x88",
+    "sizes": "88x73",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-96.png",
-    "sizes": "96x96",
+    "sizes": "96x79",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-100.png",
-    "sizes": "100x100",
+    "sizes": "100x83",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-114.png",
-    "sizes": "114x114",
+    "sizes": "114x94",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-120.png",
-    "sizes": "120x120",
+    "sizes": "120x99",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-128.png",
-    "sizes": "128x128",
+    "sizes": "128x106",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-144.png",
-    "sizes": "144x144",
+    "sizes": "144x119",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-152.png",
-    "sizes": "152x152",
+    "sizes": "152x126",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-167.png",
-    "sizes": "167x167",
+    "sizes": "167x139",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-172.png",
-    "sizes": "172x172",
+    "sizes": "172x143",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-180.png",
-    "sizes": "180x180",
+    "sizes": "180x149",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-192.png",
-    "sizes": "192x192",
+    "sizes": "192x159",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-196.png",
-    "sizes": "196x196",
+    "sizes": "196x163",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-256.png",
-    "sizes": "256x256",
+    "sizes": "256x213",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-512.png",
-    "sizes": "512x512",
+    "sizes": "512x426",
     "type": "image/png"
   }, {
     "src": "icons/favicons/Icon-1024.png",
-    "sizes": "1024x1024",
+    "sizes": "1024x853",
     "type": "image/png"
   }
 ],
