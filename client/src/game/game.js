@@ -4,7 +4,7 @@ import {getWord} from '../utils/localizer';
 import ReactGA from 'react-ga';
 import sweTextFile from '../locales/swe-words';
 import engTextFile from '../locales/eng-words';
-import {Link, Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import '../css/game.css';
 
 export default class Game extends Component {
@@ -224,9 +224,6 @@ export default class Game extends Component {
   }
 
   render() {
-    if (!this.props.settingsAreSet) {
-      return <Redirect to="/" />;
-    }
     if (!this.state.gameIsActive) {
       if (this.state.roundNr - 1 === this.props.nrOfRounds) {
         return this.gameIsFinished();
