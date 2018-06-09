@@ -131,8 +131,8 @@ export default class Game extends Component {
       for (let [id, points] of this.state.teams) {
         listOfElements.push(
           <h4 key={id}>
-            {getWord('teams', this.props.locale)} {id} -
-            {getWord('points', this.props.locale)}: {points}
+            {`${getWord('teams', this.props.locale)} ${id} - 
+            ${getWord('points', this.props.locale)}: ${points}`}
           </h4>);
       }
       return listOfElements;
@@ -153,7 +153,8 @@ export default class Game extends Component {
 
   renderRoundText() {
     return <h3>
-      {getWord('getReadyForNextRound', this.props.locale)} {this.state.roundNr}
+      {`${getWord('getReadyForNextRound', this.props.locale)}: 
+        ${this.state.roundNr}`}
     </h3>;
   }
 
@@ -235,8 +236,8 @@ export default class Game extends Component {
             {getWord('welcomeText', this.props.locale)}
           </h1>
           <h2>
-            {getWord('getReadyTeam', this.props.locale)}
-            {this.state.currentTeam}
+            {`${getWord('getReadyTeam', this.props.locale)}
+             ${this.state.currentTeam}`}
           </h2>
           {this.renderRoundText()}
           {this.renderTeamPoints()}
@@ -268,11 +269,11 @@ export default class Game extends Component {
       <h4>
         {getWord('currentTeam', this.props.locale)}: {this.state.currentTeam}
       </h4>
-      <h4>
-        {getWord('currentTeamPoints', this.props.locale)}:
-        {this.state.currentTeamsPoints}
-      </h4>
       {this.renderRoundText()}
+      <h4>
+        {`${getWord('currentTeamPoints', this.props.locale)}: 
+        ${this.state.currentTeamsPoints}`}
+      </h4>
       {this.renderTheWord()}
       {this.renderCorrectButton()}
       {this.renderPassButton()}
