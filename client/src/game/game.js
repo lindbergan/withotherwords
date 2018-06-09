@@ -25,7 +25,8 @@ export default class Game extends Component {
             timeLeft: props.timeLimit,
             totalRoundNr: 1,
             roundNr: 1,
-            disableBeginButton: false
+            disableBeginButton: false,
+            disableForASecond: false
         };
         this.handleChangeWordCorrect = this.handleChangeWordCorrect.bind(this);
         this.handleChangeWordIncorrect = this.handleChangeWordIncorrect.bind(this);
@@ -56,7 +57,11 @@ export default class Game extends Component {
     }
 
     nextWord() {
-        this.setState({ currentWord: this.getRandomWord() });
+        this.setState({ 
+            currentWord: this.getRandomWord(),
+            disableForASecond: true
+        });
+        setTimeout(() => this.setState({ disableForASecond: false }), 500);
      }
 
     hideIfTooManyPasses() {
@@ -142,7 +147,7 @@ export default class Game extends Component {
     startDisabledTimer() {
         setTimeout(() => {
             this.setState({ disableBeginButton: false })
-        }, 3000);
+        }, 1500);
     }
 
     renderBeginButton() {
@@ -153,9 +158,29 @@ export default class Game extends Component {
         }
     }
 
+    renderCorrectButton() {
+        if (this.state.disableForASecond) {
+            return <Button disabled className="correctButton" bsStyle="success" onClick={this.handleChangeWordCorrect}>{getWord('correct', this.props.locale)}</Button>
+        } else {
+            return <Button className="correctButton" bsStyle="success" onClick={this.handleChangeWordCorrect}>{getWord('correct', this.props.locale)}</Button>
+        }
+    }
+
+    renderPassButton() {
+        if (!this.state.hideIfTooManyPasses) {
+            if (this.state.disableForASecond) {
+                return <Button disabled className="passButton" bsStyle="danger" onClick={this.handleChangeWordIncorrect}>{getWord('incorrect', this.props.locale)}</Button>;
+            } else {
+                return <Button className="passButton" bsStyle="danger" onClick={this.handleChangeWordIncorrect}>{getWord('incorrect', this.props.locale)}</Button>
+            }
+        } else {
+            return null;
+        }
+    }
+
     renderTheWord() {
         return <h1 className='theWord'>{this.state.currentWord}</h1>;
-     }
+    }
 
     render() {
         if (!this.props.settingsAreSet) {
@@ -200,8 +225,8 @@ export default class Game extends Component {
             <h4>{getWord('currentTeamPoints', this.props.locale)}: {this.state.currentTeamsPoints}</h4>
             {this.renderRoundText()}
             {this.renderTheWord()}
-            <Button className="correctButton" bsStyle="success" onClick={this.handleChangeWordCorrect}>{getWord('correct', this.props.locale)}</Button>
-            {!this.state.hideIfTooManyPasses ? <Button className="passButton" bsStyle="danger" onClick={this.handleChangeWordIncorrect}>{getWord('incorrect', this.props.locale)}</Button> : null}
+            {this.renderCorrectButton()}
+            {this.renderPassButton()}
             <h4>{getWord('timeLeft', this.props.locale)}: {this.state.timeLeft} s</h4>
         </Grid>)
     }
