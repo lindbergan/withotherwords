@@ -2,143 +2,36 @@
   "short_name": "Med Andra Ord",
   "name": "Med Andra Ord / With Other Words",
   "default_locale": "sv",
-  "icons": [{
-    "src": "icons/favicons/Icon-16.png",
-    "sizes": "16x13",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-20.png",
-    "sizes": "20x16",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-29.png",
-    "sizes": "29x24",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-32.png",
-    "sizes": "32x26",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-36.png",
-    "sizes": "36x29",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-40.png",
-    "sizes": "40x33",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-48.png",
-    "sizes": "48x39",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-50.png",
-    "sizes": "50x41",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-55.png",
-    "sizes": "55x45",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-57.png",
-    "sizes": "57x47",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-58.png",
-    "sizes": "58x48",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-60.png",
-    "sizes": "60x49",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-64.png",
-    "sizes": "64x53",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-72.png",
-    "sizes": "72x59",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-76.png",
-    "sizes": "76x63",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-80.png",
-    "sizes": "80x66",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-87.png",
-    "sizes": "87x72",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-88.png",
-    "sizes": "88x73",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-96.png",
-    "sizes": "96x79",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-100.png",
-    "sizes": "100x83",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-114.png",
-    "sizes": "114x94",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-120.png",
-    "sizes": "120x99",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-128.png",
-    "sizes": "128x106",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-144.png",
-    "sizes": "144x119",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-152.png",
-    "sizes": "152x126",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-167.png",
-    "sizes": "167x139",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-172.png",
-    "sizes": "172x143",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-180.png",
-    "sizes": "180x149",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-192.png",
-    "sizes": "192x159",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-196.png",
-    "sizes": "196x163",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-256.png",
-    "sizes": "256x213",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-512.png",
-    "sizes": "512x426",
-    "type": "image/png"
-  }, {
-    "src": "icons/favicons/Icon-1024.png",
-    "sizes": "1024x853",
-    "type": "image/png"
-  }
+  "icons": [
+    {
+        "src": "/icons/favicons/android-chrome-36x36.png",
+        "sizes": "36x36",
+        "type": "image/png"
+    },
+    {
+        "src": "/icons/favicons/android-chrome-48x48.png",
+        "sizes": "48x48",
+        "type": "image/png"
+    },
+    {
+        "src": "/icons/favicons/android-chrome-72x72.png",
+        "sizes": "72x72",
+        "type": "image/png"
+    },
+    {
+        "src": "/icons/favicons/android-chrome-96x96.png",
+        "sizes": "96x96",
+        "type": "image/png"
+    },
+    {
+        "src": "/icons/favicons/android-chrome-144x144.png",
+        "sizes": "144x144",
+        "type": "image/png"
+    }
 ],
   "start_url": "/",
   "display": "fullscreen",
-  "theme_color": "#667db6",
+  "theme_color": "#0083ca",
   "orientation": "portrait",
-  "background_color": "#0082c8"
+  "background_color": "#0083ca"
 }
