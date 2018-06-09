@@ -5,6 +5,7 @@ import ReactGA from 'react-ga';
 import sweTextFile from '../locales/swe-words';
 import engTextFile from '../locales/eng-words';
 import {Link} from 'react-router-dom';
+import {CircularProgress} from '@material-ui/core';
 import '../css/game.css';
 
 export default class Game extends Component {
@@ -223,6 +224,47 @@ export default class Game extends Component {
     return <h1 className='theWord'>{this.state.currentWord}</h1>;
   }
 
+  getColorBasedOnTime() {
+    if (this.state.timeLeft/this.props.timeLimit > 0.9) {
+      return '#28a745';
+    } else if (this.state.timeLeft/this.props.timeLimit > 0.8) {
+      return '#64DD17';
+    } else if (this.state.timeLeft/this.props.timeLimit > 0.7) {
+      return '#AEEA00';
+    } else if (this.state.timeLeft/this.props.timeLimit > 0.6) {
+      return '#FFD600';
+    } else if (this.state.timeLeft/this.props.timeLimit > 0.5) {
+      return '#FFAB00';
+    } else if (this.state.timeLeft/this.props.timeLimit > 0.4) {
+      return '#FFAB40';
+    } else if (this.state.timeLeft/this.props.timeLimit > 0.3) {
+      return '#FF6D00';
+    } else if (this.state.timeLeft/this.props.timeLimit > 0.2) {
+      return '#FF6E40';
+    } else if (this.state.timeLeft/this.props.timeLimit > 0.15) {
+      return '#FF3D00';
+    } else {
+      return '#dc3545';
+    }
+  }
+
+  renderTimeLeft() {
+    const color = this.getColorBasedOnTime();
+    return (<div>
+      <CircularProgress
+        thickness={4.5}
+        max={1}
+        variant="static"
+        style={{color}}
+        value={(this.state.timeLeft/this.props.timeLimit)*100}
+        size={100}
+      />
+      <h3 className="timeLeft" style={{color}}>
+        {this.state.timeLeft}s
+      </h3>
+    </div>);
+  }
+
   render() {
     if (!this.state.gameIsActive) {
       if (this.state.roundNr - 1 === this.props.nrOfRounds) {
@@ -263,10 +305,10 @@ export default class Game extends Component {
 
     return (<Grid className="centeredGame" fluid={true}>
       <h1 className="titleText">{getWord('welcomeText', this.props.locale)}</h1>
+      {this.renderRoundText()}
       <h4>
         {getWord('currentTeam', this.props.locale)}: {this.state.currentTeam}
       </h4>
-      {this.renderRoundText()}
       <h4>
         {`${getWord('currentTeamPoints', this.props.locale)}: 
         ${this.state.currentTeamsPoints}`}
@@ -274,7 +316,7 @@ export default class Game extends Component {
       {this.renderTheWord()}
       {this.renderCorrectButton()}
       {this.renderPassButton()}
-      <h4>{getWord('timeLeft', this.props.locale)}: {this.state.timeLeft} s</h4>
+      {this.renderTimeLeft()}
     </Grid>);
   }
 }
