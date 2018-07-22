@@ -8,6 +8,6 @@ RUN yarn
 ADD src/. /app/src
 ADD public/. /app/public
 
-EXPOSE 3000
+EXPOSE 5000
 
 CMD CHOKIDAR_USEPOLLING=true yarn start
