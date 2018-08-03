@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './game/App';
+import App from './game/app';
 import registerServiceWorker from './registerServiceWorker';
 
 const Application = () => (
