@@ -11,7 +11,7 @@ class App extends Component {
     this.state = {
       locale: 'sv-SE',
       nrOfTeams: 2,
-      nrOfRounds: 5,
+      nrOfRounds: 10,
       timeLimit: 45,
       nrOfPassesLimit: 2,
       settingsAreSet: false,
