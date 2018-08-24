@@ -2,14 +2,11 @@ import React from 'react';
 import {Button, Grid} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {getWord} from '../utils/localizer';
-import ReactGA from 'react-ga';
+import {initGa} from './ga';
 import '../css/settings.css';
 
 export const Settings = props => {
-  if (process.env.NODE_ENV === 'production') {
-    ReactGA.initialize('UA-117093777-2');
-    ReactGA.pageview(window.location.pathname + window.location.search);
-  }
+  initGa();
 
   const renderOptions = (from, to, skip) => {
     return [...Array(to + 1).keys()]
