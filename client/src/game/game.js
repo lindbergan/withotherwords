@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Grid} from 'react-bootstrap';
 import {getWord} from '../utils/localizer';
-import ReactGA from 'react-ga';
+import {initGa} from './ga';
 import sweTextFile from '../locales/swe-words';
 import engTextFile from '../locales/eng-words';
 import {Link} from 'react-router-dom';
@@ -31,15 +31,10 @@ export default class Game extends Component {
       disableBeginButton: false,
       disableForASecond: false,
     };
-    this.handleChangeWordCorrect = this.handleChangeWordCorrect.bind(this);
-    this.handleChangeWordIncorrect = this.handleChangeWordIncorrect.bind(this);
-    if (process.env.NODE_ENV === 'production') {
-      ReactGA.initialize('UA-117093777-2');
-      ReactGA.pageview(window.location.pathname + window.location.search);
-    }
+    initGa();
   }
 
-  getCorrectTextFile() {
+  getCorrectTextFile = () => {
     switch (this.props.locale) {
       case 'en-US': return engTextFile;
       case 'sv-SE': return sweTextFile;
@@ -47,19 +42,19 @@ export default class Game extends Component {
     }
   }
 
-  saveScore() {
+  saveScore = () => {
     const teams = this.state.teams;
     teams.set(this.state.currentTeam, this.state.currentTeamsPoints);
     this.setState(teams);
   }
 
-  handleChangeWordCorrect() {
+  handleChangeWordCorrect = () => {
     const currentTeamsNewPoints = this.state.currentTeamsPoints + 1;
     this.setState({currentTeamsPoints: currentTeamsNewPoints});
     this.nextWord();
   }
 
-  nextWord() {
+  nextWord = () => {
     this.setState({
       currentWord: this.getRandomWord(),
       disableForASecond: true,
@@ -67,32 +62,32 @@ export default class Game extends Component {
     setTimeout(() => this.setState({disableForASecond: false}), 500);
   }
 
-  hideIfTooManyPasses() {
+  hideIfTooManyPasses = () => {
     if (this.state.currentlyPassed >= this.props.nrOfPassesLimit - 1) {
       this.setState({hideIfTooManyPasses: true});
     }
   }
 
-  handleChangeWordIncorrect() {
+  handleChangeWordIncorrect = () => {
     const newPassedAmount = this.state.currentlyPassed + 1;
     this.setState({currentlyPassed: newPassedAmount});
     this.hideIfTooManyPasses();
     this.nextWord();
   }
 
-  getRandomWord() {
+  getRandomWord = () => {
     const index = Math.floor(Math.random() * this.textFile.length);
     return this.textFile[index];
   }
 
-  startTimer() {
+  startTimer = () => {
     return setInterval(() => {
       const newTime = this.state.timeLeft - 1;
       this.setState({timeLeft: newTime});
     }, 1000);
   }
 
-  startGame() {
+  startGame = () => {
     this.setState({gameIsActive: true});
     const timer = this.startTimer();
     setTimeout(() => {
@@ -101,7 +96,7 @@ export default class Game extends Component {
     }, this.props.timeLimit * 1000);
   }
 
-  resetForNextRound() {
+  resetForNextRound = () => {
     this.setState({
       gameIsActive: false,
       hideIfTooManyPasses: this.props.nrOfPassesLimit === 0,
@@ -115,7 +110,7 @@ export default class Game extends Component {
     this.startDisabledTimer();
   }
 
-  nextTeam() {
+  nextTeam = () => {
     this.saveScore();
     const newCurrentTeamNr =
     (this.state.currentTeam % this.props.nrOfTeams) + 1;
@@ -126,7 +121,7 @@ export default class Game extends Component {
     });
   }
 
-  renderTeamPoints() {
+  renderTeamPoints = () => {
     if (this.state.teams) {
       let listOfElements = [];
       for (let [id, points] of this.state.teams) {
@@ -141,7 +136,7 @@ export default class Game extends Component {
     return null;
   }
 
-  gameIsFinished() {
+  gameIsFinished = () => {
     return (<Grid className="centeredGameEnd" fluid={true}>
       {this.renderTeamPoints()}
       <Link to="/">
@@ -152,20 +147,20 @@ export default class Game extends Component {
     </Grid>);
   }
 
-  renderRoundText() {
+  renderRoundText = () => {
     return <h3>
       {`${getWord('getReadyForNextRound', this.props.locale)}: 
         ${this.state.roundNr}`}
     </h3>;
   }
 
-  startDisabledTimer() {
+  startDisabledTimer = () => {
     setTimeout(() => {
       this.setState({disableBeginButton: false});
     }, 1500);
   }
 
-  renderBeginButton() {
+  renderBeginButton = () => {
     if (this.state.disableBeginButton) {
       return <Button disabled
         className="beginButton"
@@ -182,7 +177,7 @@ export default class Game extends Component {
     }
   }
 
-  renderCorrectButton() {
+  renderCorrectButton = () => {
     if (this.state.disableForASecond) {
       return <Button disabled
         className="correctButton"
@@ -199,7 +194,7 @@ export default class Game extends Component {
     }
   }
 
-  renderPassButton() {
+  renderPassButton = () => {
     if (!this.state.hideIfTooManyPasses) {
       if (this.state.disableForASecond) {
         return <Button disabled
@@ -220,11 +215,11 @@ export default class Game extends Component {
     }
   }
 
-  renderTheWord() {
+  renderTheWord = () => {
     return <h1 className='theWord'>{this.state.currentWord}</h1>;
   }
 
-  getColorBasedOnTime() {
+  getColorBasedOnTime = () => {
     if (this.state.timeLeft/this.props.timeLimit > 0.9) {
       return '#28a745';
     } else if (this.state.timeLeft/this.props.timeLimit > 0.8) {
@@ -248,7 +243,7 @@ export default class Game extends Component {
     }
   }
 
-  renderTimeLeft() {
+  renderTimeLeft = () => {
     const color = this.getColorBasedOnTime();
     return (<div>
       <CircularProgress
@@ -265,7 +260,7 @@ export default class Game extends Component {
     </div>);
   }
 
-  render() {
+  render = () => {
     if (!this.state.gameIsActive) {
       if (this.state.roundNr - 1 === this.props.nrOfRounds) {
         return this.gameIsFinished();

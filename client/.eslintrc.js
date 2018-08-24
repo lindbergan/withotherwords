@@ -9,6 +9,7 @@ module.exports = {
         "commonjs": true,
         "es6": true
     },
+    "parser": "babel-eslint",
     "parserOptions": {
         "ecmaVersion": 6,
         "sourceType": "module",
@@ -26,5 +27,6 @@ module.exports = {
         semi: ['error', 'always'],
         camelcase: 0,
         'arrow-parens': ['error', 'as-needed'],
+        "no-invalid-this": "off",
     }
 };

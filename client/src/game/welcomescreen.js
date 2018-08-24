@@ -3,14 +3,11 @@ import {Link} from 'react-router-dom';
 import {Button} from 'react-bootstrap';
 import {getWord} from '../utils/localizer';
 import {Grid, Row} from 'react-bootstrap';
-import ReactGA from 'react-ga';
+import {initGa} from './ga';
 import '../css/welcomescreen.css';
 
 export const WelcomeScreen = props => {
-  if (process.env.NODE_ENV === 'production') {
-    ReactGA.initialize('UA-117093777-2');
-    ReactGA.pageview(window.location.pathname + window.location.search);
-  }
+  initGa();
   const isSweSelected = () => {
     if (props.locale === 'sv-SE') return 'selected';
     else return '';
