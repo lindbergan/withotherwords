@@ -9,6 +9,25 @@
     padding: 15px;
 }
 
+@media(min-width: 768px) {
+    body {
+        position: relative;
+    }
+    .centered-settings {
+        max-width: 500px;
+        box-shadow: 0 0 10px #ccc;
+        padding: 25px;
+        margin-top: 10px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 700px;
+    }
+    h1 {
+        font-size: 25px !important;
+    }
+}
+
 .settings-text {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bolder;

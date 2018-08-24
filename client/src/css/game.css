@@ -13,9 +13,30 @@
     padding: 10px;
 }
 
-.centeredGame {
-    position: absolute;
-    top: 5%;
+@media(min-width: 768px) {
+    body {
+        position: relative;
+    }
+    .centeredGame {
+        max-width: 500px;
+        box-shadow: 0 0 10px #ccc;
+        padding: 25px;
+        margin-top: 10px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 700px;
+    }
+    h1 {
+        font-size: 25px !important;
+    }
+}
+
+@media (width: 1024px) and (height: 1366px){
+    .centeredGame {
+        top: 50%;
+        transform: translateY(50%) translateX(-50%);
+    }
 }
 
 .centeredGameEnd {

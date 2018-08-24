@@ -50,6 +50,25 @@ h1.welcomeText {
     top: 15%;
 }
 
+@media(min-width: 768px) {
+    body {
+        position: relative;
+    }
+    .centered {
+        max-width: 500px;
+        box-shadow: 0 0 10px #ccc;
+        padding: 25px;
+        margin-top: 10px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 700px;
+    }
+    h1 {
+        font-size: 25px !important;
+    }
+}
+
 .spacing {
     padding: 10px;
 }

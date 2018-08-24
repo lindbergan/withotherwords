@@ -40,7 +40,7 @@ export const Settings = props => {
     </select>
     <br />
     <Link to="/game">
-      <Button bsStyle="primary" onClick={() => props.handleSettingsAreSet()}>
+      <Button bsStyle="primary">
         {getWord('finishedWithSettings', props.locale)}!</Button>
     </Link>
   </Grid>);
