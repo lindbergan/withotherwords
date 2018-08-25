@@ -1,5 +1,7 @@
-.title {
-    font-family: 'Merienda', cursive;
-    font-weight: bold;
-    font-size: 35px;
+p {
+    font-family: 'Roboto';
+}
+
+h1 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }

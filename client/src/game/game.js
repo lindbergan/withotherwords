@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import {Button, Grid} from 'react-bootstrap';
-import {getWord} from '../utils/localizer';
-import {initGa} from './ga';
-import sweTextFile from '../locales/swe-words';
-import engTextFile from '../locales/eng-words';
 import {Link} from 'react-router-dom';
-import {CircularProgress} from '@material-ui/core';
+import {CircularProgress, Button} from '@material-ui/core';
+
+import {getWord, getCorrectTextFile} from '../utils/localizer';
+import {initGa} from './ga';
+
 import '../css/game.css';
 
 export default class Game extends Component {
@@ -16,7 +15,7 @@ export default class Game extends Component {
       teams.set(i, 0); // Init team's score
     }
     const hideIfTooManyPasses = props.nrOfPassesLimit < 1;
-    this.textFile = this.getCorrectTextFile();
+    this.textFile = getCorrectTextFile(props.locale);
     this.state = {
       teams,
       gameIsActive: false,
@@ -32,14 +31,6 @@ export default class Game extends Component {
       disableForASecond: false,
     };
     initGa();
-  }
-
-  getCorrectTextFile = () => {
-    switch (this.props.locale) {
-      case 'en-US': return engTextFile;
-      case 'sv-SE': return sweTextFile;
-      default: return sweTextFile;
-    }
   }
 
   saveScore = () => {
@@ -137,14 +128,14 @@ export default class Game extends Component {
   }
 
   gameIsFinished = () => {
-    return (<Grid className="centeredGameEnd" fluid={true}>
+    return (<div className="centeredGameEnd" fluid={true}>
       {this.renderTeamPoints()}
       <Link to="/">
-        <Button bsStyle="success"
-          bsSize="large">{getWord('playAgain', this.props.locale)}?
+        <Button variant="contained" color="primary"
+          size="large">{getWord('playAgain', this.props.locale)}?
         </Button>
       </Link>
-    </Grid>);
+    </div>);
   }
 
   renderRoundText = () => {
@@ -265,7 +256,7 @@ export default class Game extends Component {
       if (this.state.roundNr - 1 === this.props.nrOfRounds) {
         return this.gameIsFinished();
       } else {
-        return (<Grid className="centeredGame" fluid={true}>
+        return (<div className="centeredGame" fluid={true}>
           <h1 className="titleText">
             {getWord('welcomeText', this.props.locale)}
           </h1>
@@ -276,7 +267,7 @@ export default class Game extends Component {
           {this.renderRoundText()}
           {this.renderTeamPoints()}
           {this.renderBeginButton()}
-        </Grid>);
+        </div>);
       }
     }
 
@@ -298,7 +289,7 @@ export default class Game extends Component {
           End of event listeners
         */
 
-    return (<Grid className="centeredGame" fluid={true}>
+    return (<div className="centeredGame" fluid={true}>
       <h1 className="titleText">{getWord('welcomeText', this.props.locale)}</h1>
       {this.renderRoundText()}
       <h4>
@@ -312,6 +303,6 @@ export default class Game extends Component {
       {this.renderCorrectButton()}
       {this.renderPassButton()}
       {this.renderTimeLeft()}
-    </Grid>);
+    </div>);
   }
 }
