@@ -1,88 +1,53 @@
-.welcomeText {
-    margin: 0 auto;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: bolder;
-    text-align: center;
-}
-
-h1.welcomeText {
-    font-size: 4.0vmax;
-}
-
-@media screen and (max-width: 600px) {
-    h1.welcomeText {
-        font-size: 6.0vmax;
-    }
-    .getStartedText {
-        font-size: 3.0vmax;
-    }
-}
-
-.centeredImages {
-    display: table;
-    margin: 0 auto;
-}
-
-.getStartedText {
-    padding-left: 50px;
-    padding-right: 50px;
-    margin-bottom: 25px !important;
-    font-size: 1.5vmax;
-    text-align: center;
-}
-
-.beginButton {
-    margin: 0 auto;
-    min-width: 225px;
-}
-
-.beginButton > button {
-    min-width: 250px;
-}
-
-.chooseLanguage {
-    display: table;
-    margin: 0 auto;
-}
-
-.centered {
-    position: absolute;
-    top: 15%;
-}
-
-@media(min-width: 768px) {
-    body {
-        position: relative;
-    }
-    .centered {
-        max-width: 500px;
-        box-shadow: 0 0 10px #ccc;
-        padding: 25px;
-        margin-top: 10px;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        height: 700px;
-    }
-    h1 {
-        font-size: 25px !important;
-    }
-}
-
-.spacing {
-    padding: 10px;
-}
-
-.border-black {
-    border: 3px solid black;
-    border-radius: 50%;
-    margin-right: 25px;
-    cursor: pointer;
-}
-
 .selected {
-    border: 3px solid darkred;
-    border-radius: 50%;
-    margin-right: 25px;
-    cursor: pointer;
+    border: 3px green solid;
+    border-radius: 35px;
 }
+
+.not-selected {
+    border: 3px black solid;
+    border-radius: 35px;
+}
+
+.begin-button {
+    text-align: center;
+    width: 100%;
+}
+
+.starting-description {
+    font-style: italic;
+    opacity: 65%;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Cinzel:700');
+
+.title {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+}
+
+/* Grid stuff */
+.text-grid {
+    grid-area: 'text';
+    text-align: center;
+    grid-column: 1 / span 2;
+}
+
+.image-grid {
+    grid-area: 'image';
+    grid-row-start: 2;
+}
+
+.swe-flag {
+    justify-self: right;
+}
+
+.button-grid-container {
+    display: grid;
+    grid-template-columns: 
+    'text text'
+    'image image';
+    grid-column-gap: 10px;
+    margin-bottom: 15px;
+} /* Grid stuff */

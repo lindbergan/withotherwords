@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Grid} from 'react-bootstrap';
+import {Button} from '@material-ui/core';
 import {Link} from 'react-router-dom';
 import {getWord} from '../utils/localizer';
 import {initGa} from './ga';
@@ -14,7 +14,7 @@ export const Settings = props => {
       .map(i => <option value={i} key={i}>{i}</option>);
   };
 
-  return (<Grid fluid={true} className="centered-settings">
+  return (<div fluid={true} className="centered-settings">
     <h1 className="settings-text">{getWord('settings', props.locale)}</h1>
     <p>{getWord('selectTeamsText', props.locale)}:</p>
     <select value={props.state.nrOfTeams}
@@ -43,5 +43,5 @@ export const Settings = props => {
       <Button bsStyle="primary">
         {getWord('finishedWithSettings', props.locale)}!</Button>
     </Link>
-  </Grid>);
+  </div>);
 };
