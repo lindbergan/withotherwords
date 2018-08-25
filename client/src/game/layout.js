@@ -7,7 +7,7 @@ export const Layout = ({children, showPhoneImage}) => {
       <PhoneImage>
         {children}
       </PhoneImage> :
-      <div className="centered">
+      <div className="h-v-centered">
         {children}
       </div>);
 };
