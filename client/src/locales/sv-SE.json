@@ -1,6 +1,6 @@
 {
     "welcomeText": "Med Andra Ord",
-    "getStartedText": "För att komma igång, vänligen välj ett språk",
+    "getStartedText": "För att komma igång, vänligen välj ett språk, sen klicka på spela",
     "or": "eller",
     "startPlayingText": "Spela",
     "selectTeamsText": "Antal lag",
@@ -9,7 +9,7 @@
     "selectTimeLimit": "Tidsgräns (s)",
     "none": "Ingen",
     "selectNumberOfPasses": "Passar per runda",
-    "finishedWithSettings": "Spela",
+    "finishedWithSettings": "Starta spel",
     "getReadyTeam": "Redo Lag",
     "currentTeam": "Aktuellt lag",
     "currentTeamPoints": "Aktuella lagets poäng",
