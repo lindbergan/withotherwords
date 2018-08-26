@@ -4,8 +4,28 @@ import {CircularProgress, Button} from '@material-ui/core';
 
 import {getWord, getCorrectTextFile} from '../utils/localizer';
 import {initGa} from './ga';
+import {Layout} from './layout';
 
 import '../css/game.css';
+import '../css/global.css';
+
+const Title = ({locale}) => (
+  <h1 className="title">{getWord('welcomeText', locale)}</h1>
+);
+
+const GameIsFinished = ({locale}) => (
+  <div>
+    {this.renderTeamPoints()}
+    <Button
+      component={Link}
+      to="/"
+      variant="contained"
+      color="primary"
+      size="large">
+      {getWord('playAgain', locale)}?
+    </Button>
+  </div>
+);
 
 export default class Game extends Component {
   constructor(props) {
@@ -33,6 +53,20 @@ export default class Game extends Component {
     initGa();
   }
 
+  componentDidMount = () => {
+    /* Event listeners to disable zoomimg */
+    document.addEventListener('gesturestart', function(e) {
+      e.preventDefault();
+    });
+
+    document.addEventListener('touchmove', function(event) {
+      event = event.originalEvent || event;
+      if (event.scale !== 1) {
+        event.preventDefault();
+      }
+    }, false);
+  }
+
   saveScore = () => {
     const teams = this.state.teams;
     teams.set(this.state.currentTeam, this.state.currentTeamsPoints);
@@ -52,6 +86,25 @@ export default class Game extends Component {
     });
     setTimeout(() => this.setState({disableForASecond: false}), 500);
   }
+
+  BeginButton = ({locale, disableBeginButton}) => {
+    if (disableBeginButton) {
+      return <Button
+        disabled
+        color="primary"
+        variant="contained"
+        onClick={() => this.startGame()}>
+        {getWord('begin', locale)}
+      </Button>;
+    } else {
+      return <Button
+        color="primary"
+        variant="contained"
+        onClick={() => this.startGame()}>
+        {getWord('begin', locale)}
+      </Button>;
+    }
+  };
 
   hideIfTooManyPasses = () => {
     if (this.state.currentlyPassed >= this.props.nrOfPassesLimit - 1) {
@@ -127,17 +180,6 @@ export default class Game extends Component {
     return null;
   }
 
-  gameIsFinished = () => {
-    return (<div className="centeredGameEnd" fluid={true}>
-      {this.renderTeamPoints()}
-      <Link to="/">
-        <Button variant="contained" color="primary"
-          size="large">{getWord('playAgain', this.props.locale)}?
-        </Button>
-      </Link>
-    </div>);
-  }
-
   renderRoundText = () => {
     return <h3>
       {`${getWord('getReadyForNextRound', this.props.locale)}: 
@@ -149,23 +191,6 @@ export default class Game extends Component {
     setTimeout(() => {
       this.setState({disableBeginButton: false});
     }, 1500);
-  }
-
-  renderBeginButton = () => {
-    if (this.state.disableBeginButton) {
-      return <Button disabled
-        className="beginButton"
-        bsStyle="success"
-        onClick={() => this.startGame()}>
-        {getWord('begin', this.props.locale)}
-      </Button>;
-    } else {
-      return <Button className="beginButton"
-        bsStyle="success"
-        onClick={() => this.startGame()}>
-        {getWord('begin', this.props.locale)}
-      </Button>;
-    }
   }
 
   renderCorrectButton = () => {
@@ -252,57 +277,54 @@ export default class Game extends Component {
   }
 
   render = () => {
-    if (!this.state.gameIsActive) {
-      if (this.state.roundNr - 1 === this.props.nrOfRounds) {
-        return this.gameIsFinished();
+    const {
+      locale,
+      nrOfRounds,
+    } = this.props;
+
+    const {
+      gameIsActive,
+      roundNr,
+      currentTeam,
+      disableBeginButton,
+    } = this.state;
+
+    if (!gameIsActive) {
+      if (roundNr - 1 === nrOfRounds) {
+        return <GameIsFinished locale={locale} />;
       } else {
-        return (<div className="centeredGame" fluid={true}>
-          <h1 className="titleText">
-            {getWord('welcomeText', this.props.locale)}
-          </h1>
-          <h2>
-            {`${getWord('getReadyTeam', this.props.locale)}
-             ${this.state.currentTeam}`}
-          </h2>
-          {this.renderRoundText()}
-          {this.renderTeamPoints()}
-          {this.renderBeginButton()}
-        </div>);
+        return (
+          <div>
+            <Title locale={locale}/>
+            <h2>
+              {`${getWord('getReadyTeam', locale)} ${currentTeam}`}
+            </h2>
+            {this.renderRoundText()}
+            {this.renderTeamPoints()}
+            <this.BeginButton
+              locale={locale}
+              disableBeginButton={disableBeginButton}
+            />
+          </div>);
       }
     }
 
-    /*
-            Event listeners to disable zoomimg
-        */
+    return (
+      <Layout>
+        <Title locale={locale}/>
+        {this.renderRoundText()}
+        <h4>
+          {getWord('currentTeam', this.props.locale)}: {this.state.currentTeam}
+        </h4>
+        <h4>
+          {`${getWord('currentTeamPoints', this.props.locale)}: ${this.state.currentTeamsPoints}`}
+        </h4>
+        {this.renderTheWord()}
+        {this.renderCorrectButton()}
+        {this.renderPassButton()}
+        {this.renderTimeLeft()}
+      </Layout>
 
-    document.addEventListener('gesturestart', function(e) {
-      e.preventDefault();
-    });
-    document.addEventListener('touchmove', function(event) {
-      event = event.originalEvent || event;
-      if (event.scale !== 1) {
-        event.preventDefault();
-      }
-    }, false);
-
-    /*
-          End of event listeners
-        */
-
-    return (<div className="centeredGame" fluid={true}>
-      <h1 className="titleText">{getWord('welcomeText', this.props.locale)}</h1>
-      {this.renderRoundText()}
-      <h4>
-        {getWord('currentTeam', this.props.locale)}: {this.state.currentTeam}
-      </h4>
-      <h4>
-        {`${getWord('currentTeamPoints', this.props.locale)}: 
-        ${this.state.currentTeamsPoints}`}
-      </h4>
-      {this.renderTheWord()}
-      {this.renderCorrectButton()}
-      {this.renderPassButton()}
-      {this.renderTimeLeft()}
-    </div>);
+    );
   }
 }
