@@ -5,12 +5,13 @@ import {Settings} from './settings';
 import {WelcomeScreen} from './welcomescreen';
 import {initGa} from './ga';
 import {ErrorPage} from './404';
+import {sweLocale} from '../utils/localizer';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      locale: 'sv-SE',
+      locale: sweLocale,
       nrOfTeams: 2,
       nrOfRounds: 10,
       timeLimit: 45,

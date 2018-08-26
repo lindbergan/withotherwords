@@ -9,8 +9,7 @@
 }
 
 .begin-button {
-    text-align: center;
-    width: 100%;
+    margin-top: 35px;
 }
 
 .starting-description {
@@ -28,6 +27,7 @@
 .image-grid {
     grid-area: 'image';
     grid-row-start: 2;
+    margin-bottom: 15px;
 }
 
 .swe-flag {
@@ -40,5 +40,6 @@
     'text text'
     'image image';
     grid-column-gap: 15px;
+    grid-row-gap: 15px;
     margin-bottom: 15px;
 } /* Grid stuff */
