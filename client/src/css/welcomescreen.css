@@ -18,15 +18,6 @@
     opacity: 65%;
 }
 
-@import url('https://fonts.googleapis.com/css?family=Cinzel:700');
-
-.title {
-    padding: 0;
-    margin: 0;
-    text-align: center;
-    font-family: 'Cinzel', serif;
-}
-
 /* Grid stuff */
 .text-grid {
     grid-area: 'text';
@@ -48,6 +39,6 @@
     grid-template-columns: 
     'text text'
     'image image';
-    grid-column-gap: 10px;
+    grid-column-gap: 15px;
     margin-bottom: 15px;
 } /* Grid stuff */

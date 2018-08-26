@@ -10,3 +10,9 @@
     top: 30%;
     transform: translateX(-50%) translateY(-50%);
 }
+
+@media(max-width: 500px) and (min-width: 350px) {
+    .h-v-centered {
+        top: 35%;
+    }
+}
