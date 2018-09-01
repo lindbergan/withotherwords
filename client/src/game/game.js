@@ -1,12 +1,67 @@
 import React, {Component} from 'react';
-import {Button, Grid} from 'react-bootstrap';
-import {getWord} from '../utils/localizer';
-import ReactGA from 'react-ga';
-import sweTextFile from '../locales/swe-words';
-import engTextFile from '../locales/eng-words';
 import {Link} from 'react-router-dom';
-import {CircularProgress} from '@material-ui/core';
+import {CircularProgress, Button} from '@material-ui/core';
+import BarChart from 'react-svg-bar-chart';
+
+import {getWord, getCorrectTextFile} from '../utils/localizer';
+import {initGa} from './ga';
+import {Layout} from './layout';
+
 import '../css/game.css';
+import '../css/global.css';
+
+
+const Title = ({locale}) => (
+  <h1 className="title">{getWord('welcomeText', locale)}</h1>
+);
+
+const GameIsFinished = ({locale, teams}) => (
+  <div>
+    <TeamPoints locale={locale} teams={teams}/>
+    <div className="begin-button">
+      <Button
+        component={Link}
+        to="/"
+        variant="contained"
+        color="primary"
+        size="large">
+        {getWord('playAgain', locale)}?
+      </Button>
+    </div>
+  </div>
+);
+
+const CurrentTeamText = ({locale, currentTeam}) => (<h2 className="team-text">
+  {`${getWord('getReadyTeam', locale)} ${currentTeam}`}
+</h2>);
+
+const RoundText = ({locale, roundNr}) => (<h3 className="round-text">
+  {`${getWord('getReadyForNextRound', locale)} ${roundNr}`}
+</h3>);
+
+const TeamPoints = ({locale, teams}) => {
+  if (teams) {
+    let data = [];
+    for (let i = 1; i < teams.size + 1; i++) {
+      const team = teams.get(i);
+      data.push({
+        x: i,
+        y: team,
+      });
+    }
+    return (<BarChart
+      data={data}
+      barsColor="#44B39D"
+      barsMargin={0.3}
+      labelsColor="black"
+      viewBoxHeight={800}
+      classes="bargraph"
+      labelsCountY={10}
+      labelsStepX={1}
+    />);
+  }
+  return null;
+};
 
 export default class Game extends Component {
   constructor(props) {
@@ -16,7 +71,7 @@ export default class Game extends Component {
       teams.set(i, 0); // Init team's score
     }
     const hideIfTooManyPasses = props.nrOfPassesLimit < 1;
-    this.textFile = this.getCorrectTextFile();
+    this.textFile = getCorrectTextFile(props.locale);
     this.state = {
       teams,
       gameIsActive: false,
@@ -31,35 +86,36 @@ export default class Game extends Component {
       disableBeginButton: false,
       disableForASecond: false,
     };
-    this.handleChangeWordCorrect = this.handleChangeWordCorrect.bind(this);
-    this.handleChangeWordIncorrect = this.handleChangeWordIncorrect.bind(this);
-    if (process.env.NODE_ENV === 'production') {
-      ReactGA.initialize('UA-117093777-2');
-      ReactGA.pageview(window.location.pathname + window.location.search);
-    }
+    initGa();
   }
 
-  getCorrectTextFile() {
-    switch (this.props.locale) {
-      case 'en-US': return engTextFile;
-      case 'sv-SE': return sweTextFile;
-      default: return sweTextFile;
-    }
+  componentDidMount = () => {
+    /* Event listeners to disable zoomimg */
+    document.addEventListener('gesturestart', function(e) {
+      e.preventDefault();
+    });
+
+    document.addEventListener('touchmove', function(event) {
+      event = event.originalEvent || event;
+      if (event.scale !== 1) {
+        event.preventDefault();
+      }
+    }, false);
   }
 
-  saveScore() {
+  saveScore = () => {
     const teams = this.state.teams;
     teams.set(this.state.currentTeam, this.state.currentTeamsPoints);
     this.setState(teams);
   }
 
-  handleChangeWordCorrect() {
+  handleChangeWordCorrect = () => {
     const currentTeamsNewPoints = this.state.currentTeamsPoints + 1;
     this.setState({currentTeamsPoints: currentTeamsNewPoints});
     this.nextWord();
   }
 
-  nextWord() {
+  nextWord = () => {
     this.setState({
       currentWord: this.getRandomWord(),
       disableForASecond: true,
@@ -67,32 +123,51 @@ export default class Game extends Component {
     setTimeout(() => this.setState({disableForASecond: false}), 500);
   }
 
-  hideIfTooManyPasses() {
+  renderBeginButton = (locale, disableBeginButton) => {
+    if (disableBeginButton) {
+      return <div className="begin-button"><Button
+        disabled
+        color="primary"
+        variant="contained"
+        onClick={() => this.startGame()}>
+        {getWord('begin', locale)}
+      </Button></div>;
+    } else {
+      return <div className="begin-button"><Button
+        color="primary"
+        variant="contained"
+        onClick={() => this.startGame()}>
+        {getWord('begin', locale)}
+      </Button></div>;
+    }
+  };
+
+  hideIfTooManyPasses = () => {
     if (this.state.currentlyPassed >= this.props.nrOfPassesLimit - 1) {
       this.setState({hideIfTooManyPasses: true});
     }
   }
 
-  handleChangeWordIncorrect() {
+  handleChangeWordIncorrect = () => {
     const newPassedAmount = this.state.currentlyPassed + 1;
     this.setState({currentlyPassed: newPassedAmount});
     this.hideIfTooManyPasses();
     this.nextWord();
   }
 
-  getRandomWord() {
+  getRandomWord = () => {
     const index = Math.floor(Math.random() * this.textFile.length);
     return this.textFile[index];
   }
 
-  startTimer() {
+  startTimer = () => {
     return setInterval(() => {
       const newTime = this.state.timeLeft - 1;
       this.setState({timeLeft: newTime});
     }, 1000);
   }
 
-  startGame() {
+  startGame = () => {
     this.setState({gameIsActive: true});
     const timer = this.startTimer();
     setTimeout(() => {
@@ -101,7 +176,7 @@ export default class Game extends Component {
     }, this.props.timeLimit * 1000);
   }
 
-  resetForNextRound() {
+  resetForNextRound = () => {
     this.setState({
       gameIsActive: false,
       hideIfTooManyPasses: this.props.nrOfPassesLimit === 0,
@@ -115,7 +190,7 @@ export default class Game extends Component {
     this.startDisabledTimer();
   }
 
-  nextTeam() {
+  nextTeam = () => {
     this.saveScore();
     const newCurrentTeamNr =
     (this.state.currentTeam % this.props.nrOfTeams) + 1;
@@ -126,105 +201,55 @@ export default class Game extends Component {
     });
   }
 
-  renderTeamPoints() {
-    if (this.state.teams) {
-      let listOfElements = [];
-      for (let [id, points] of this.state.teams) {
-        listOfElements.push(
-          <h4 key={id}>
-            {`${getWord('teams', this.props.locale)} ${id} - 
-            ${getWord('points', this.props.locale)}: ${points}`}
-          </h4>);
-      }
-      return listOfElements;
-    }
-    return null;
-  }
-
-  gameIsFinished() {
-    return (<Grid className="centeredGameEnd" fluid={true}>
-      {this.renderTeamPoints()}
-      <Link to="/">
-        <Button bsStyle="success"
-          bsSize="large">{getWord('playAgain', this.props.locale)}?
-        </Button>
-      </Link>
-    </Grid>);
-  }
-
-  renderRoundText() {
-    return <h3>
-      {`${getWord('getReadyForNextRound', this.props.locale)}: 
-        ${this.state.roundNr}`}
-    </h3>;
-  }
-
-  startDisabledTimer() {
+  startDisabledTimer = () => {
     setTimeout(() => {
       this.setState({disableBeginButton: false});
     }, 1500);
   }
 
-  renderBeginButton() {
-    if (this.state.disableBeginButton) {
-      return <Button disabled
-        className="beginButton"
-        bsStyle="success"
-        onClick={() => this.startGame()}>
-        {getWord('begin', this.props.locale)}
-      </Button>;
-    } else {
-      return <Button className="beginButton"
-        bsStyle="success"
-        onClick={() => this.startGame()}>
-        {getWord('begin', this.props.locale)}
-      </Button>;
-    }
-  }
-
-  renderCorrectButton() {
+  renderCorrectButton = () => {
     if (this.state.disableForASecond) {
-      return <Button disabled
-        className="correctButton"
-        bsStyle="success"
-        onClick={this.handleChangeWordCorrect}>
-        {getWord('correct', this.props.locale)}
-      </Button>;
+      return (
+        <button className="image-button correct-button">
+          <img src="/icons/checkbox-marked-circle.svg"></img>
+        </button>
+      );
     } else {
-      return <Button className="correctButton"
-        bsStyle="success"
-        onClick={this.handleChangeWordCorrect}>
-        {getWord('correct', this.props.locale)}
-      </Button>;
+      return (
+        <button
+          className="image-button correct-button"
+          onClick={this.handleChangeWordCorrect}>
+          <img src="/icons/checkbox-marked-circle.svg"></img>
+        </button>
+      );
     }
   }
 
-  renderPassButton() {
+  renderPassButton = () => {
     if (!this.state.hideIfTooManyPasses) {
       if (this.state.disableForASecond) {
-        return <Button disabled
-          className="passButton"
-          bsStyle="danger"
-          onClick={this.handleChangeWordIncorrect}>
-          {getWord('incorrect', this.props.locale)}
-        </Button>;
+        return (
+          <button className="image-button pass-button"
+            onClick={this.handleChangeWordIncorrect}>
+            <img src="/icons/close-circle.svg" />
+          </button>);
       } else {
-        return <Button className="passButton"
-          bsStyle="danger"
-          onClick={this.handleChangeWordIncorrect}>
-          {getWord('incorrect', this.props.locale)}
-        </Button>;
+        return (
+          <button className="image-button pass-button"
+            onClick={this.handleChangeWordIncorrect}>
+            <img src="/icons/close-circle.svg" />
+          </button>);
       }
     } else {
       return null;
     }
   }
 
-  renderTheWord() {
-    return <h1 className='theWord'>{this.state.currentWord}</h1>;
+  renderTheWord = () => {
+    return <h1 className='the-word'>{this.state.currentWord}</h1>;
   }
 
-  getColorBasedOnTime() {
+  getColorBasedOnTime = () => {
     if (this.state.timeLeft/this.props.timeLimit > 0.9) {
       return '#28a745';
     } else if (this.state.timeLeft/this.props.timeLimit > 0.8) {
@@ -248,9 +273,9 @@ export default class Game extends Component {
     }
   }
 
-  renderTimeLeft() {
+  renderTimeLeft = () => {
     const color = this.getColorBasedOnTime();
-    return (<div>
+    return (<div className="time-left-container">
       <CircularProgress
         thickness={4.5}
         max={1}
@@ -259,64 +284,58 @@ export default class Game extends Component {
         value={(this.state.timeLeft/this.props.timeLimit)*100}
         size={100}
       />
-      <h3 className="timeLeft" style={{color}}>
+      <h3 className="time-left" style={{color}}>
         {this.state.timeLeft}s
       </h3>
     </div>);
   }
 
-  render() {
-    if (!this.state.gameIsActive) {
-      if (this.state.roundNr - 1 === this.props.nrOfRounds) {
-        return this.gameIsFinished();
+  render = () => {
+    const {
+      locale,
+      nrOfRounds,
+    } = this.props;
+
+    const {
+      gameIsActive,
+      roundNr,
+      currentTeam,
+      disableBeginButton,
+      teams,
+      currentTeamsPoints,
+    } = this.state;
+
+    if (!gameIsActive) {
+      if (roundNr - 1 === nrOfRounds) {
+        return <GameIsFinished locale={locale} teams={teams} />;
       } else {
-        return (<Grid className="centeredGame" fluid={true}>
-          <h1 className="titleText">
-            {getWord('welcomeText', this.props.locale)}
-          </h1>
-          <h2>
-            {`${getWord('getReadyTeam', this.props.locale)}
-             ${this.state.currentTeam}`}
-          </h2>
-          {this.renderRoundText()}
-          {this.renderTeamPoints()}
-          {this.renderBeginButton()}
-        </Grid>);
+        return (
+          <Layout>
+            <Title locale={locale}/>
+            <CurrentTeamText locale={locale} currentTeam={currentTeam}/>
+            <RoundText locale={locale} roundNr={roundNr}/>
+            <TeamPoints locale={locale} teams={teams}/>
+            {this.renderBeginButton(locale, disableBeginButton)}
+          </Layout>);
       }
     }
 
-    /*
-            Event listeners to disable zoomimg
-        */
+    return (
+      <Layout>
+        <Title locale={locale}/>
+        <CurrentTeamText locale={locale} currentTeam={currentTeam}/>
+        <RoundText locale={locale} roundNr={roundNr}/>
+        <h4 className="score-text">
+          {`${getWord('currentTeamPoints', locale)} ${currentTeamsPoints}`}
+        </h4>
+        {this.renderTheWord()}
+        <div className="button-grid-game">
+          {this.renderCorrectButton()}
+          {this.renderPassButton()}
+        </div>
+        {this.renderTimeLeft()}
+      </Layout>
 
-    document.addEventListener('gesturestart', function(e) {
-      e.preventDefault();
-    });
-    document.addEventListener('touchmove', function(event) {
-      event = event.originalEvent || event;
-      if (event.scale !== 1) {
-        event.preventDefault();
-      }
-    }, false);
-
-    /*
-          End of event listeners
-        */
-
-    return (<Grid className="centeredGame" fluid={true}>
-      <h1 className="titleText">{getWord('welcomeText', this.props.locale)}</h1>
-      {this.renderRoundText()}
-      <h4>
-        {getWord('currentTeam', this.props.locale)}: {this.state.currentTeam}
-      </h4>
-      <h4>
-        {`${getWord('currentTeamPoints', this.props.locale)}: 
-        ${this.state.currentTeamsPoints}`}
-      </h4>
-      {this.renderTheWord()}
-      {this.renderCorrectButton()}
-      {this.renderPassButton()}
-      {this.renderTimeLeft()}
-    </Grid>);
+    );
   }
 }
