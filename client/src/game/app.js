@@ -1,70 +1,54 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Game from './game';
 import {Settings} from './settings';
 import {WelcomeScreen} from './welcomescreen';
-import ReactGA from 'react-ga';
+import {initGa} from './ga';
+import {ErrorPage} from './404';
+import {sweLocale} from '../utils/localizer';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      locale: 'sv-SE',
+      locale: sweLocale,
       nrOfTeams: 2,
       nrOfRounds: 10,
       timeLimit: 45,
       nrOfPassesLimit: 2,
-      settingsAreSet: false,
     };
-    this.changeLanguage = this.changeLanguage.bind(this);
-    this.handleNrTeamsChange = this.handleNrTeamsChange.bind(this);
-    this.handleNrRoundsChange = this.handleNrRoundsChange.bind(this);
-    this.handleTimeLimitChange = this.handleTimeLimitChange.bind(this);
-    this.handleNrOfPassesLimitChange =
-    this.handleNrOfPassesLimitChange.bind(this);
-    this.handleSettingsAreSet = this.handleSettingsAreSet.bind(this);
-    if (process.env.NODE_ENV === 'production') {
-      ReactGA.initialize('UA-117093777-2');
-      ReactGA.pageview(window.location.pathname + window.location.search);
-    }
+    initGa();
   }
 
-  componentWillUnmount() {
-    this.setState({settingsAreSet: false});
-  }
-
-  handleNrTeamsChange(event) {
+  handleNrTeamsChange = event => {
     this.setState({nrOfTeams: parseInt(event.target.value, 10)});
   }
-  handleNrRoundsChange(event) {
+  handleNrRoundsChange = event => {
     this.setState({nrOfRounds: parseInt(event.target.value, 10)});
   }
-  handleTimeLimitChange(event) {
+  handleTimeLimitChange = event => {
     this.setState({timeLimit: parseInt(event.target.value, 10)});
   }
-  handleNrOfPassesLimitChange(event) {
+  handleNrOfPassesLimitChange = event => {
     this.setState({nrOfPassesLimit: parseInt(event.target.value, 10)});
   }
-  handleSettingsAreSet() {
-    this.setState({settingsAreSet: true});
-  }
 
-  changeLanguage(locale) {
+  changeLanguage = locale => {
     this.setState({locale});
   }
 
   render() {
     return (
       <Router>
-        <div>
-          <Route exact={true}
+        <Switch>
+          <Route exact
             path="/"
             component={() => <WelcomeScreen
               locale={this.state.locale}
               changeLanguage={locale => this.changeLanguage(locale)}
             />}
           />
-          <Route path="/settings"
+          <Route exact path="/settings"
             component={() => <Settings
               locale={this.state.locale}
               state={this.state}
@@ -72,20 +56,21 @@ class App extends Component {
               handleNrRoundsChange={this.handleNrRoundsChange}
               handleTimeLimitChange={this.handleTimeLimitChange}
               handleNrOfPassesLimitChange={this.handleNrOfPassesLimitChange}
-              handleSettingsAreSet={this.handleSettingsAreSet}
             />}
           />
-          <Route path="/game"
+          <Route exact path="/game"
             component={() => <Game
               locale={this.state.locale}
               nrOfTeams={this.state.nrOfTeams}
               nrOfRounds={this.state.nrOfRounds}
               timeLimit={this.state.timeLimit}
               nrOfPassesLimit={this.state.nrOfPassesLimit}
-              settingsAreSet={this.state.settingsAreSet}
             />}
           />
-        </div>
+          <Route
+            component={ErrorPage}
+          />
+        </Switch>
       </Router>
     );
   }

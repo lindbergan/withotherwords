@@ -1,58 +1,78 @@
 import React from 'react';
+
 import {Link} from 'react-router-dom';
-import {Button} from 'react-bootstrap';
+import {Button} from '@material-ui/core';
 import {getWord} from '../utils/localizer';
-import {Grid, Row} from 'react-bootstrap';
-import ReactGA from 'react-ga';
+
+import {initGa} from './ga';
+import {Layout} from './layout';
+import {sweLocale, engLocale} from '../utils/localizer';
+
 import '../css/welcomescreen.css';
+import '../css/global.css';
 
-export const WelcomeScreen = props => {
-  if (process.env.NODE_ENV === 'production') {
-    ReactGA.initialize('UA-117093777-2');
-    ReactGA.pageview(window.location.pathname + window.location.search);
-  }
-  const isSweSelected = () => {
-    if (props.locale === 'sv-SE') return 'selected';
-    else return '';
-  };
+const isUsSelected = locale =>
+  locale === engLocale ? 'selected' : 'not-selected';
+const isSweSelected = locale =>
+  locale === sweLocale ? 'selected' : 'not-selected';
 
-  const isUsSelected = () => {
-    if (props.locale === 'en-US') return 'selected';
-    else return '';
-  };
+const usFlagUrl = 'icons/united-states-of-america-flag-round-icon-64.png';
+const sweFlagUrl = 'icons/sweden-flag-round-icon-64.png';
 
-  const renderChooseLanguage = () => {
-    return (<div className="chooseLanguage spacing">
-      <h5 className="getStartedText">
-        {getWord('getStartedText', props.locale)}
-      </h5>
-      <div className="centeredImages spacing">
-        <img className={`border-black primary ${isSweSelected()}`}
-          src="icons/sweden-flag-round-icon-64.png"
-          onClick={() => props.changeLanguage('sv-SE')}
-          alt="swedish flag"
-        />
-        <img className={`border-black primary ${isUsSelected()}`}
-          src="icons/united-states-of-america-flag-round-icon-64.png"
-          onClick={() => props.changeLanguage('en-US')}
-          alt="american flag"
-        />
-      </div>
-    </div>);
-  };
+const UsFlag = ({locale, changeLanguage}) => (
+  <img
+    src={usFlagUrl}
+    className={`us-flag grid-item image-grid ${isUsSelected(locale)}`}
+    onClick={() => changeLanguage(engLocale)}
+    alt="american flag">
+  </img>
+);
 
-  return (<Grid fluid={true} className="centered spacing">
-    <Row xs={12} md={12}>
-      <h1 className="welcomeText">
-        {getWord('welcomeText', props.locale)}
-      </h1>
-    </Row>
-    { renderChooseLanguage() }
-    <Row><Link to="/settings" className="beginButton spacing">
-      <Button bsStyle="primary"
-        bsSize="large"
-      >{getWord('startPlayingText', props.locale)}
-      </Button>
-    </Link></Row>
-  </Grid>);
+const SweFlag = ({locale, changeLanguage}) => (
+  <img
+    src={sweFlagUrl}
+    className={`swe-flag grid-item image-grid ${isSweSelected(locale)}`}
+    onClick={() => changeLanguage(sweLocale)}
+    alt="swedish flag">
+  </img>
+);
+
+const GetStartedDescription = ({locale}) => (
+  <p className="grid-item text-grid starting-description">
+    {getWord('getStartedText', locale)}
+  </p>
+);
+
+const ChooseLanguageButtons = ({locale, changeLanguage}) => (
+  <div className="button-grid-container">
+    <GetStartedDescription locale={locale}/>
+    <SweFlag locale={locale} changeLanguage={changeLanguage}/>
+    <UsFlag locale={locale} changeLanguage={changeLanguage}/>
+  </div>
+);
+
+const PlayButton = ({locale}) => (
+  <div>
+    <Button component={Link}
+      to="/settings"
+      variant="contained"
+      color="primary"
+      size="large">
+      {getWord('startPlayingText', locale)}
+    </Button>
+  </div>
+);
+
+const Title = ({locale}) => (
+  <h1 className="title">{getWord('welcomeText', locale)}</h1>
+);
+
+export const WelcomeScreen = ({locale, changeLanguage}) => {
+  initGa();
+  return (
+    <Layout showPhoneImage={false}>
+      <Title locale={locale}/>
+      <ChooseLanguageButtons locale={locale} changeLanguage={changeLanguage}/>
+      <PlayButton locale={locale}/>
+    </Layout>);
 };
