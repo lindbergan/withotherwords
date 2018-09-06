@@ -67,6 +67,9 @@ class App extends Component {
               nrOfPassesLimit={this.state.nrOfPassesLimit}
             />}
           />
+          <Route exact path="/sitemap.xml" />
+          <Route exact path="/browserconfig.xml" />
+          <Route exact path="/robots.txt" />
           <Route
             component={ErrorPage}
           />
