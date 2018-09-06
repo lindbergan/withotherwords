@@ -7,12 +7,12 @@
 .h-v-centered {
     position: absolute;
     left: 50%;
-    top: 30%;
+    top: 40%;
     transform: translateX(-50%) translateY(-50%);
 }
 
 @media(max-width: 500px) and (min-width: 350px) {
     .h-v-centered {
-        top: 35%;
+        top: 45%;
     }
 }
