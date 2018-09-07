@@ -1,7 +1,15 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {CircularProgress, Button} from '@material-ui/core';
-import BarChart from 'react-svg-bar-chart';
+import {
+  CircularProgress,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@material-ui/core';
+import Chart from 'react-google-charts';
 
 import {getWord, getCorrectTextFile} from '../utils/localizer';
 import {initGa} from './ga';
@@ -9,7 +17,6 @@ import {Layout} from './layout';
 
 import '../css/game.css';
 import '../css/global.css';
-
 
 const Title = ({locale}) => (
   <h1 className="title">{getWord('welcomeText', locale)}</h1>
@@ -40,35 +47,76 @@ const RoundText = ({locale, roundNr}) => (<h3 className="round-text">
 </h3>);
 
 const TeamPoints = ({locale, teams}) => {
-  if (teams) {
-    let data = [];
-    for (let i = 1; i < teams.size + 1; i++) {
-      const team = teams.get(i);
-      data.push({
-        x: i,
-        y: team,
-      });
-    }
-    return (<BarChart
-      data={data}
-      barsColor="#44B39D"
-      barsMargin={0.3}
-      labelsColor="black"
-      viewBoxHeight={800}
-      classes="bargraph"
-      labelsCountY={10}
-      labelsStepX={1}
-    />);
+  let data = [['Team', 'Points', {role: 'style'}]];
+  for (let i = 1; i < teams.size + 1; i++) {
+    const team = teams.get(i);
+    data.push([`Team ${i}`, team, '#44B39D']);
   }
-  return null;
+  const options = {
+    hAxis: {viewWindow: {min: 0}},
+    vAxis: {viewWindow: {min: 0}},
+    legend: 'none',
+  };
+  return (<Chart
+    options={options}
+    chartType="ColumnChart"
+    width="100%"
+    height="200px"
+    data={data}
+  />);
 };
+
+const AlertDialog = ({locale, alertIsOpen, handleClose}) => (
+  <Dialog
+    open={alertIsOpen}
+    onClose={handleClose}
+    aria-labelledby="alert-dialog-title"
+    aria-describedby="alert-dialog-description">
+    <DialogTitle id="alert-dialog-title">
+      {`${getWord('giveUp', locale)}?`}
+    </DialogTitle>
+    <DialogContent>
+      <DialogContentText id="alert-dialog-description">
+        {`${getWord('areYouSure', locale)}?`}
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button component={Link} to="/" onClick={handleClose} color="primary">
+        {`${getWord('giveUp', locale)}`}
+      </Button>
+      <Button onClick={handleClose} variant="contained"
+        color="primary" autoFocus>
+        {`${getWord('cancel', locale)}`}
+      </Button>
+    </DialogActions>
+  </Dialog>
+);
+
+const GiveUpButton = ({locale, alertIsOpen, handleOpen, handleClose}) => (<div>
+  <Button
+    variant="contained"
+    onClick={handleOpen}
+    style={{
+      'background': '#FB4049',
+      'marginTop': 15,
+      '&:hover': {
+        'background': '#F4131E',
+      },
+    }}
+    color="primary">
+    {getWord('giveUp', locale)}
+  </Button>
+  <AlertDialog locale={locale}
+    alertIsOpen={alertIsOpen}
+    handleClose={handleClose} />
+</div>);
 
 export default class Game extends Component {
   constructor(props) {
     super(props);
     const teams = new Map();
     for (let i = 1; i < props.nrOfTeams + 1; i++) {
-      teams.set(i, 0); // Init team's score
+      teams.set(i, Math.floor(Math.random()*25)); // Init team's score
     }
     const hideIfTooManyPasses = props.nrOfPassesLimit < 1;
     this.textFile = getCorrectTextFile(props.locale);
@@ -85,6 +133,7 @@ export default class Game extends Component {
       roundNr: 1,
       disableBeginButton: false,
       disableForASecond: false,
+      alertIsOpen: false,
     };
     initGa();
   }
@@ -102,6 +151,14 @@ export default class Game extends Component {
       }
     }, false);
   }
+
+  handleAlertClickOpen = () => {
+    this.setState({alertIsOpen: true});
+  };
+
+  handleAlertClickClose = () => {
+    this.setState({alertIsOpen: false});
+  };
 
   saveScore = () => {
     const teams = this.state.teams;
@@ -214,7 +271,7 @@ export default class Game extends Component {
       return (
         <button className={`image-button correct-button 
           correct-button-disabled ${isOnlyButtonStyle}`}>
-          <img src="/icons/checkbox-marked-circle.svg" />
+          <img src="/icons/checkbox-marked-circle.svg" alt="correct button" />
         </button>
       );
     } else {
@@ -222,7 +279,7 @@ export default class Game extends Component {
         <button
           className={`image-button correct-button ${isOnlyButtonStyle}`}
           onClick={this.handleChangeWordCorrect}>
-          <img src="/icons/checkbox-marked-circle.svg" />
+          <img src="/icons/checkbox-marked-circle.svg" alt="correct button" />
         </button>
       );
     }
@@ -234,13 +291,13 @@ export default class Game extends Component {
         return (
           <button className="image-button pass-button pass-button-disabled"
             onClick={this.handleChangeWordIncorrect}>
-            <img src="/icons/close-circle.svg" />
+            <img src="/icons/close-circle.svg" alt="pass button" />
           </button>);
       } else {
         return (
           <button className="image-button pass-button"
             onClick={this.handleChangeWordIncorrect}>
-            <img src="/icons/close-circle.svg" />
+            <img src="/icons/close-circle.svg" alt="pass button" />
           </button>);
       }
     } else {
@@ -318,6 +375,10 @@ export default class Game extends Component {
             <RoundText locale={locale} roundNr={roundNr}/>
             <TeamPoints locale={locale} teams={teams}/>
             {this.renderBeginButton(locale, disableBeginButton)}
+            <GiveUpButton locale={locale}
+              alertIsOpen={this.state.alertIsOpen}
+              handleOpen={this.handleAlertClickOpen}
+              handleClose={this.handleAlertClickClose} />
           </Layout>);
       }
     }
