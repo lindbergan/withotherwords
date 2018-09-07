@@ -378,9 +378,9 @@ export default class Game extends Component {
 
   nextTeam = () => {
     this.saveScore();
-    const {currentTeam, teams} = this.state;
+    const {teams, roundNr} = this.state;
     const {nrOfTeams} = this.props;
-    const newCurrentTeamNr = (currentTeam.index % nrOfTeams);
+    const newCurrentTeamNr = (roundNr % nrOfTeams);
     this.setState({
       currentTeam: teams.get(newCurrentTeamNr),
       currentWord: this.getRandomWord(),
