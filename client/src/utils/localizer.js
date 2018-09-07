@@ -18,6 +18,6 @@ export const getCorrectTextFile = locale => {
   switch (locale) {
     case engLocale: return engTextFile;
     case sweLocale: return sweTextFile;
-    default: return sweTextFile;
+    default: return engTextFile;
   }
 };
