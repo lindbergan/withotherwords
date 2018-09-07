@@ -13,8 +13,8 @@ class App extends Component {
     this.state = {
       locale: sweLocale,
       nrOfTeams: 2,
-      nrOfRounds: 10,
-      timeLimit: 45,
+      nrOfRounds: 0,
+      timeLimit: 5,
       nrOfPassesLimit: 2,
     };
     initGa();

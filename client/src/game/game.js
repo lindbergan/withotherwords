@@ -23,7 +23,8 @@ const Title = ({locale}) => (
 );
 
 const GameIsFinished = ({locale, teams}) => (
-  <div>
+  <Layout>
+    <Title locale={locale} />
     <TeamPoints locale={locale} teams={teams}/>
     <div className="begin-button">
       <Button
@@ -35,7 +36,7 @@ const GameIsFinished = ({locale, teams}) => (
         {getWord('playAgain', locale)}?
       </Button>
     </div>
-  </div>
+  </Layout>
 );
 
 const CurrentTeamText = ({currentTeam}) => (<h2 className="team-text">
@@ -305,8 +306,9 @@ export default class Game extends Component {
 
   saveScore = () => {
     const {teams, currentTeam} = this.state;
-    teams.set(currentTeam.index, currentTeam);
-    this.setState(teams);
+    const {index} = currentTeam;
+    teams.set(index, currentTeam);
+    this.setState({teams: teams});
   }
 
   handleChangeWordCorrect = () => {
@@ -378,9 +380,9 @@ export default class Game extends Component {
 
   nextTeam = () => {
     this.saveScore();
-    const {teams, roundNr} = this.state;
+    const {teams, currentTeam} = this.state;
     const {nrOfTeams} = this.props;
-    const newCurrentTeamNr = (roundNr % nrOfTeams);
+    const newCurrentTeamNr = (currentTeam.index + 1) % nrOfTeams;
     this.setState({
       currentTeam: teams.get(newCurrentTeamNr),
       currentWord: this.getRandomWord(),
@@ -439,7 +441,7 @@ export default class Game extends Component {
       <Layout>
         <Title locale={locale}/>
         <hr />
-        <CurrentTeamText locale={locale} currentTeam={currentTeam} />
+        <CurrentTeamText currentTeam={currentTeam} />
         <RoundText locale={locale} roundNr={roundNr} />
         <CurrentTeamPoints locale={locale} currentTeam={currentTeam} />
         <hr />
