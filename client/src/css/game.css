@@ -23,6 +23,7 @@ hr {
     border: 0;
     grid-row-start: 1;
     width: inherit;
+    cursor: pointer;
 }
 
 .image-button > img {
