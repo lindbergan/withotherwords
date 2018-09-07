@@ -16,7 +16,7 @@ const PhoneImageUrl = 'icons/iphone.svg';
 
 const PhoneImage = props => (
   <div className="centered">
-    <img src={PhoneImageUrl} alt="phone image" />
+    <img src={PhoneImageUrl} alt="phone background" />
     <div>
       {props.children}
     </div>
