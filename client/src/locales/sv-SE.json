@@ -21,5 +21,9 @@
     "playAgain": "Vill ni spela igen",
     "teams": "Lag",
     "points": "Poäng",
-    "settings": "Inställningar"
+    "settings": "Inställningar",
+    "giveUp": "Ge upp",
+    "areYouSure": "Är du säker på att du vill ge upp",
+    "cancel": "Avbryt",
+    "team": "Lag"
 }

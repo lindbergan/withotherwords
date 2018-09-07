@@ -35,6 +35,7 @@ p {
     grid-area: 'image';
     grid-row-start: 2;
     margin-bottom: 15px;
+    cursor: pointer;
 }
 
 .swe-flag {
