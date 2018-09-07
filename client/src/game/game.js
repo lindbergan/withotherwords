@@ -208,18 +208,21 @@ export default class Game extends Component {
   }
 
   renderCorrectButton = () => {
+    const isOnlyButtonStyle =
+      this.state.hideIfTooManyPasses ? 'column-centered' : '';
     if (this.state.disableForASecond) {
       return (
-        <button className="image-button correct-button">
-          <img src="/icons/checkbox-marked-circle.svg"></img>
+        <button className={`image-button correct-button 
+          correct-button-disabled ${isOnlyButtonStyle}`}>
+          <img src="/icons/checkbox-marked-circle.svg" />
         </button>
       );
     } else {
       return (
         <button
-          className="image-button correct-button"
+          className={`image-button correct-button ${isOnlyButtonStyle}`}
           onClick={this.handleChangeWordCorrect}>
-          <img src="/icons/checkbox-marked-circle.svg"></img>
+          <img src="/icons/checkbox-marked-circle.svg" />
         </button>
       );
     }
@@ -229,7 +232,7 @@ export default class Game extends Component {
     if (!this.state.hideIfTooManyPasses) {
       if (this.state.disableForASecond) {
         return (
-          <button className="image-button pass-button"
+          <button className="image-button pass-button pass-button-disabled"
             onClick={this.handleChangeWordIncorrect}>
             <img src="/icons/close-circle.svg" />
           </button>);
@@ -245,9 +248,8 @@ export default class Game extends Component {
     }
   }
 
-  renderTheWord = () => {
-    return <h1 className='the-word'>{this.state.currentWord}</h1>;
-  }
+  renderTheWord = () =>
+    (<h1 className='the-word'>{this.state.currentWord}</h1>);
 
   getColorBasedOnTime = () => {
     if (this.state.timeLeft/this.props.timeLimit > 0.9) {
@@ -323,12 +325,15 @@ export default class Game extends Component {
     return (
       <Layout>
         <Title locale={locale}/>
+        <hr />
         <CurrentTeamText locale={locale} currentTeam={currentTeam}/>
         <RoundText locale={locale} roundNr={roundNr}/>
         <h4 className="score-text">
           {`${getWord('currentTeamPoints', locale)} ${currentTeamsPoints}`}
         </h4>
+        <hr />
         {this.renderTheWord()}
+        <hr />
         <div className="button-grid-game">
           {this.renderCorrectButton()}
           {this.renderPassButton()}

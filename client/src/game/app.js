@@ -14,7 +14,7 @@ class App extends Component {
       locale: sweLocale,
       nrOfTeams: 2,
       nrOfRounds: 10,
-      timeLimit: 45,
+      timeLimit: 999,
       nrOfPassesLimit: 2,
     };
     initGa();
