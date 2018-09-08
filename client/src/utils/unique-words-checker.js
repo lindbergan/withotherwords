@@ -9,13 +9,13 @@ const fs = require('fs');
 
 const sweUnique = [];
 sweWords.forEach(s => {
-  if (sweUnique.indexOf(s) === -1 && s.length <= 13 && s.length >= 3) {
+  if (sweUnique.indexOf(s) === -1 && s.length <= 13 && s.length > 3) {
     sweUnique.push(s);
   }
 });
 const engUnique = [];
 engWords.forEach(s => {
-  if (engUnique.indexOf(s) === -1 && s.length <= 13 && s.length >= 3) {
+  if (engUnique.indexOf(s) === -1 && s.length <= 13 && s.length > 3) {
     engUnique.push(s);
   }
 });
