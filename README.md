@@ -8,7 +8,7 @@ In terminal:
 $ git clone git@github.com:lindbergan/withotherwords.git
 $ docker-compose up --build
 ```
-`docker-compose up --build` will start the project. Go to `localhost:5000` to view application.
+`docker-compose up --build` will start the project. Go to `localhost:3000` to view application.
 
 ## Screenshots
 #### Home page
