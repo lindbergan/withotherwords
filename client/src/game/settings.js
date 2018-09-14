@@ -107,6 +107,7 @@ export const Settings = (
     handleNrOfPassesLimitChange,
   }) => {
   initGa();
+  document.title = getWord('title-settings', locale);
   return (
     <Layout>
       <Header locale={locale}/>

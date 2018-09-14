@@ -69,6 +69,7 @@ const Title = ({locale}) => (
 
 export const WelcomeScreen = ({locale, changeLanguage}) => {
   initGa();
+  document.title = getWord('title-home', locale);
   return (
     <Layout showPhoneImage={false}>
       <Title locale={locale}/>
