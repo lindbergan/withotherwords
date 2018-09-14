@@ -45,7 +45,7 @@ const SelectRounds = ({locale, nrOfRounds, handleNrRoundsChange}) => (<div>
       selectMenu: 'select-center',
     }}>
     {renderOptions(5, 20, 5)}
-    <MenuItem value="999">{getWord('indefinite', locale)}</MenuItem>
+    <MenuItem value={999}>{getWord('indefinite', locale)}</MenuItem>
   </Select>
 </div>);
 
@@ -80,7 +80,7 @@ const SelectPassesLimit = (
         selectMenu: 'select-center',
       }}>
       {renderOptions(0, 10, 1)}
-      <MenuItem value="999">{getWord('indefinite', locale)}</MenuItem>
+      <MenuItem value={999}>{getWord('indefinite', locale)}</MenuItem>
     </Select>
   </div>
 );
