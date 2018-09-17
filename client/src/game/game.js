@@ -280,6 +280,7 @@ export default class Game extends Component {
       alertIsOpen: false,
     };
     initGa();
+    document.title = getWord('title-game', props.locale);
   }
 
   componentDidMount = () => {
