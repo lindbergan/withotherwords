@@ -1,53 +1,53 @@
 .selected {
-    border-radius: 35px;
-    box-shadow: 0 0 10px 5px cornflowerblue;
+  border-radius: 35px;
+  box-shadow: 0 0 10px 5px cornflowerblue;
 }
 
 p {
-    opacity: 55%;
-    font-style: italic;
-    text-align: center;
-    margin-left: 0px;
+  opacity: 55%;
+  font-style: italic;
+  text-align: center;
+  margin-left: 0px;
 }
 
 .not-selected {
-    border-radius: 35px;
-    box-shadow: 0 0 5px 0px black;
+  border-radius: 35px;
+  box-shadow: 0 0 5px 0px black;
 }
 
 .begin-button {
-    margin-top: 35px;
+  margin-top: 35px;
 }
 
 .starting-description {
-    font-style: italic;
-    opacity: 65%;
+  font-style: italic;
+  opacity: 65%;
 }
 
 /* Grid stuff */
 .text-grid {
-    grid-area: 'text';
-    text-align: center;
-    grid-column: 1 / span 2;
+  grid-area: "text";
+  text-align: center;
+  grid-column: 1 / span 2;
 }
 
 .image-grid {
-    grid-area: 'image';
-    grid-row-start: 2;
-    margin-bottom: 15px;
-    cursor: pointer;
+  grid-area: "image";
+  grid-row-start: 2;
+  margin-bottom: 15px;
+  cursor: pointer;
 }
 
 .swe-flag {
-    justify-self: right;
+  justify-self: right;
 }
 
 .button-grid-container {
-    display: grid;
-    grid-template-columns: 
-    'text text'
-    'image image';
-    grid-column-gap: 15px;
-    grid-row-gap: 15px;
-    margin-bottom: 15px;
+  display: grid;
+  grid-template-columns:
+    "text text"
+    "image image";
+  grid-column-gap: 15px;
+  grid-row-gap: 15px;
+  margin-bottom: 15px;
 } /* Grid stuff */

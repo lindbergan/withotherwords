@@ -1,9 +1,9 @@
-import React from 'react';
-import {Button} from '@material-ui/core';
-import {Link} from 'react-router-dom';
-import {Layout} from './layout';
+import React from "react";
+import { Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { Layout } from "./layout";
 
-import '../css/404.css';
+import "../css/404.css";
 
 export const ErrorPage = () => (
   <Layout>
@@ -14,9 +14,11 @@ export const ErrorPage = () => (
         style={{
           fontSize: 30,
           padding: 5,
-          width: 100,
+          width: 100
         }}
-        color="primary">←
+        color="primary"
+      >
+        ←
       </Button>
     </Link>
   </Layout>
