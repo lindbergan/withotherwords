@@ -18,7 +18,7 @@ const sweFlagUrl = "icons/sweden-flag-round-icon-64.png";
 
 const ShareIcon = () =>
   isIOS ? (
-    <img src="icons/addtohomescreen.png" alt="Add to home screen!" />
+    <img className="shareIcon" src="icons/addtohomescreen.png" alt="Add to home screen!" />
   ) : (
     <MoreVert />
   );
@@ -49,7 +49,7 @@ export class WelcomeScreen extends Component {
       eitherAndroidOrIOS()
     ) {
       setTimeout(() => this.setState({ snackbarIsOpen: true }), 500);
-      setTimeout(() => this.setState({ snackbarIsOpen: false }), 5000);
+      setTimeout(() => this.setState({ snackbarIsOpen: true }), 5000);
     }
   }
 
@@ -94,6 +94,9 @@ export class WelcomeScreen extends Component {
           </Button>
         </Layout>
         <Snackbar
+          classes={{
+            root: "snackbar"
+          }}
           message={
             <span className="snackbar-span">
               <InfoIcon />
