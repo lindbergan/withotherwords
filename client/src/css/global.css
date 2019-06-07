@@ -5,14 +5,14 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Roboto";
+  font-family: "Open Sans", sans-serif;
 }
 
-@import url("https://fonts.googleapis.com/css?family=Cinzel:700");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
 
 .title {
   padding: 0;
   margin: 0;
   text-align: center;
-  font-family: "Cinzel", serif;
+  font-family: "Open Sans", sans-serif;
 }
