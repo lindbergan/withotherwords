@@ -42,10 +42,10 @@
 } /* Grid stuff */
 
 .snackbar-span {
-  text-align: center;
-  display: flex;
   align-items: center;
+  display: flex;
 }
+
 .snackbar-span > span {
   margin-left: 15px;
 }
