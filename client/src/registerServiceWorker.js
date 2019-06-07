@@ -44,6 +44,7 @@ function registerValidSW(swUrl) {
           if (installingWorker.state === "installed") {
             if (navigator.serviceWorker.controller) {
               console.log("New content is available; please refresh.");
+              window.location.reload();
             } else {
               console.log("Content is cached for offline use.");
             }
