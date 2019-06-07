@@ -40,3 +40,24 @@
   grid-row-gap: 15px;
   margin-bottom: 15px;
 } /* Grid stuff */
+
+.snackbar {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4bdaa0;
+  border: 2px solid #1ccdb2;
+  border-radius: 15px;
+  width: 80%;
+}
+
+.snackbar-span {
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+.snackbar-span > span {
+  margin-left: 15px;
+}
+
