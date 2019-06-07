@@ -1,30 +1,22 @@
 div {
-    display: grid;
+  display: grid;
 }
 
 select {
-    justify-self: center;
-    width: 150px;
+  justify-self: center;
+  width: 150px;
 }
 
 .start-game-button {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 .header {
-    margin: 0 0 0 0;
-    padding: 0;
-    text-align: center;
+  margin: 0 0 0 0;
+  padding: 0;
+  text-align: center;
 }
 
 .select-center {
-    text-align: center;
+  text-align: center;
 }
-
-p {
-    opacity: 55%;
-    font-style: italic;
-    text-align: center;
-    margin-left: -35px;
-}
-

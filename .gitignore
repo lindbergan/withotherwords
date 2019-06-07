@@ -1,2 +1,4 @@
 .DS_STORE
 yarn-error.log
+list-to-json-converter.js
+unique-words-checker.js
