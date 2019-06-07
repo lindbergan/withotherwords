@@ -52,6 +52,15 @@ const TeamPoints = ({ locale, teams }) => {
   return (
     <Chart
       options={options}
+      loader={
+        <div
+          style={{
+            margin: "0 auto"
+          }}
+        >
+          <CircularProgress indeterminate="true" />
+        </div>
+      }
       chartType="ColumnChart"
       width="100%"
       height="200px"
