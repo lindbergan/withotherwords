@@ -6,9 +6,10 @@ Med Andra Ord / With Other Words
 In terminal:
 ```
 $ git clone git@github.com:lindbergan/withotherwords.git
-$ docker-compose up --build
+$ cd app/client/
+$ yarn start
 ```
-`docker-compose up --build` will start the project. Go to `localhost:3000` to view application.
+Go to `localhost:3000` to view application.
 
 ## Screenshots
 #### Home page
