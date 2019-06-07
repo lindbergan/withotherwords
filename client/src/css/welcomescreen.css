@@ -36,7 +36,7 @@
   grid-template-columns:
     "text text"
     "image image";
-  grid-column-gap: 15px;
+  grid-column-gap: 25px;
   grid-row-gap: 15px;
   margin-bottom: 15px;
 } /* Grid stuff */
