@@ -7,7 +7,8 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle
+  DialogTitle,
+  IconButton
 } from "@material-ui/core";
 import Chart from "react-google-charts";
 
@@ -357,24 +358,27 @@ export default class Game extends Component {
         </h4>
         <h1 className="the-word">{currentWord}</h1>
         <div className="button-grid-game">
-          <button
+          <IconButton
+            onClick={this.handleChangeWordCorrect}
+            disabled={disableForASecond}
             className={classNames("image-button", "correct-button", {
-              "column-centered": hideIfTooManyPasses,
+              "column-centered": this.state.hideIfTooManyPasses,
               "button-disabled": disableForASecond
             })}
-            onClick={this.handleChangeWordCorrect}
           >
             <img src="/icons/checkbox-marked-circle.svg" alt="correct button" />
-          </button>
-          <button
-            className={classNames("image-button", "pass-button", {
-              hidden: hideIfTooManyPasses,
-              "button-disabled": disableForASecond
-            })}
+          </IconButton>
+          <IconButton
             onClick={this.handleChangeWordIncorrect}
+            disabled={disableForASecond}
+            hidden={this.state.hideIfTooManyPasses}
+            className={classNames("image-button", "pass-button", {
+              "button-disabled": disableForASecond,
+              hidden: this.state.hideIfTooManyPasses
+            })}
           >
             <img src="/icons/close-circle.svg" alt="pass button" />
-          </button>
+          </IconButton>
         </div>
         <div className="time-left-container">
           <CircularProgress
