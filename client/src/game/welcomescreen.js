@@ -52,9 +52,20 @@ export class WelcomeScreen extends Component {
       !window.matchMedia("(display-mode: fullscreen)").matches &&
       eitherAndroidOrIOS()
     ) {
-      setTimeout(() => this.setState({ snackbarIsOpen: true }), 500);
-      setTimeout(() => this.setState({ snackbarIsOpen: false }), 5000);
+      this.timeIn = setTimeout(
+        () => this.setState({ snackbarIsOpen: true }),
+        500
+      );
+      this.timeOut = setTimeout(
+        () => this.setState({ snackbarIsOpen: false }),
+        5000
+      );
     }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeIn);
+    clearTimeout(this.timeOut);
   }
 
   render() {

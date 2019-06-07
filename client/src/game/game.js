@@ -362,7 +362,7 @@ export default class Game extends Component {
             onClick={this.handleChangeWordCorrect}
             disabled={disableForASecond}
             className={classNames("image-button", "correct-button", {
-              "column-centered": this.state.hideIfTooManyPasses,
+              "column-centered": hideIfTooManyPasses,
               "button-disabled": disableForASecond
             })}
           >
@@ -371,10 +371,10 @@ export default class Game extends Component {
           <IconButton
             onClick={this.handleChangeWordIncorrect}
             disabled={disableForASecond}
-            hidden={this.state.hideIfTooManyPasses}
+            hidden={hideIfTooManyPasses}
             className={classNames("image-button", "pass-button", {
               "button-disabled": disableForASecond,
-              hidden: this.state.hideIfTooManyPasses
+              hidden: hideIfTooManyPasses
             })}
           >
             <img src="/icons/close-circle.svg" alt="pass button" />
