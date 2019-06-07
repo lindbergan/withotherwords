@@ -12,7 +12,6 @@ import {
 import Chart from "react-google-charts";
 
 import { getWord, getCorrectTextFile } from "../utils/localizer";
-import { initGa } from "./ga";
 import { Layout } from "./layout";
 
 import "../css/game.css";
@@ -314,7 +313,6 @@ export default class Game extends Component {
       disableForASecond: false,
       alertIsOpen: false
     };
-    initGa();
     document.title = getWord("title-game", props.locale);
   }
 
