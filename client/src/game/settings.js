@@ -3,7 +3,6 @@ import { Button, Select, MenuItem } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 import { getWord } from "../utils/localizer";
-import { initGa } from "./ga";
 import { Layout } from "./layout";
 
 import "../css/settings.css";
@@ -113,7 +112,6 @@ export const Settings = ({
   handleNrRoundsChange,
   handleNrOfPassesLimitChange
 }) => {
-  initGa();
   document.title = getWord("title-settings", locale);
   return (
     <Layout>

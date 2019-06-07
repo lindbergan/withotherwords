@@ -17,9 +17,7 @@ export const ErrorPage = () => (
           width: 100
         }}
         color="primary"
-      >
-        ←
-      </Button>
+      />
     </Link>
   </Layout>
 );
