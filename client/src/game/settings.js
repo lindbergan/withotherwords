@@ -26,7 +26,7 @@ const TextAndSelect = ({
   indefinite,
   locale
 }) => (
-  <div>
+  <React.Fragment>
     <p className="select-center">{text}</p>
     <Select
       value={value}
@@ -42,7 +42,7 @@ const TextAndSelect = ({
         <MenuItem value={999}>{getWord("indefinite", locale)}</MenuItem>
       ) : null}
     </Select>
-  </div>
+  </React.Fragment>
 );
 
 export const Settings = ({

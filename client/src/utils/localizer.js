@@ -1,5 +1,6 @@
 import Swedish from "../locales/sv-SE";
 import English from "../locales/en-US";
+
 import sweTextFile from "../locales/swe-words";
 import engTextFile from "../locales/eng-words";
 

@@ -14,29 +14,13 @@ import Chart from "react-google-charts";
 import { getWord, getCorrectTextFile } from "../utils/localizer";
 import { Layout } from "./layout";
 
+import classNames from "classnames";
+
 import "../css/game.css";
 import "../css/global.css";
 
 const Title = ({ locale }) => (
   <h1 className="title">{getWord("welcomeText", locale)}</h1>
-);
-
-const GameIsFinished = ({ locale, teams }) => (
-  <Layout>
-    <Title locale={locale} />
-    <TeamPoints locale={locale} teams={teams} />
-    <div className="begin-button">
-      <Button
-        component={Link}
-        to="/"
-        variant="contained"
-        color="primary"
-        size="large"
-      >
-        {getWord("playAgain", locale)}?
-      </Button>
-    </div>
-  </Layout>
 );
 
 const CurrentTeamText = ({ currentTeam }) => (
@@ -62,7 +46,6 @@ const TeamPoints = ({ locale, teams }) => {
     data.push([`${team.name}`, team.points, "#44B39D"]);
   }
   const options = {
-    hAxis: { viewWindow: { min: 0 } },
     vAxis: { viewWindow: { min: 0 } },
     legend: "none"
   };
@@ -108,104 +91,6 @@ const AlertDialog = ({ locale, alertIsOpen, handleClose }) => (
   </Dialog>
 );
 
-const GiveUpButton = ({ locale, alertIsOpen, handleOpen, handleClose }) => (
-  <div>
-    <Button
-      variant="contained"
-      onClick={handleOpen}
-      style={{
-        background: "#FB4049",
-        marginTop: 15,
-        "&:hover": {
-          background: "#F4131E"
-        }
-      }}
-      color="primary"
-    >
-      {getWord("giveUp", locale)}
-    </Button>
-    <AlertDialog
-      locale={locale}
-      alertIsOpen={alertIsOpen}
-      handleClose={handleClose}
-    />
-  </div>
-);
-
-const BeginButton = ({ locale, disableBeginButton, startGame }) => {
-  if (disableBeginButton) {
-    return (
-      <div className="begin-button">
-        <Button
-          disabled
-          color="primary"
-          variant="contained"
-          onClick={() => startGame()}
-        >
-          {getWord("begin", locale)}
-        </Button>
-      </div>
-    );
-  } else {
-    return (
-      <div className="begin-button">
-        <Button color="primary" variant="contained" onClick={() => startGame()}>
-          {getWord("begin", locale)}
-        </Button>
-      </div>
-    );
-  }
-};
-
-const CurrentTeamPoints = ({ locale, currentTeam }) => (
-  <h4 className="score-text">
-    {`${getWord("currentTeamPoints", locale)} ${currentTeam.points}`}
-  </h4>
-);
-
-const TheWord = ({ currentWord }) => (
-  <h1 className="the-word">{currentWord}</h1>
-);
-
-const ActionButtons = ({
-  hideIfTooManyPasses,
-  disableForASecond,
-  handleChangeWordCorrect,
-  handleChangeWordIncorrect
-}) => (
-  <div className="button-grid-game">
-    <CorrectButton
-      hideIfTooManyPasses={hideIfTooManyPasses}
-      disableForASecond={disableForASecond}
-      handleChangeWordCorrect={handleChangeWordCorrect}
-    />
-    <PassButton
-      hideIfTooManyPasses={hideIfTooManyPasses}
-      disableForASecond={disableForASecond}
-      handleChangeWordIncorrect={handleChangeWordIncorrect}
-    />
-  </div>
-);
-
-const TimeLeft = ({ timeLeft, timeLimit }) => {
-  const color = getColorBasedOnTime(timeLeft, timeLimit);
-  return (
-    <div className="time-left-container">
-      <CircularProgress
-        thickness={4.5}
-        max={1}
-        variant="static"
-        style={{ color }}
-        value={(timeLeft / timeLimit) * 100}
-        size={100}
-      />
-      <h3 className="time-left" style={{ color }}>
-        {timeLeft}s
-      </h3>
-    </div>
-  );
-};
-
 const getColorBasedOnTime = (timeLeft, timeLimit) => {
   if (timeLeft / timeLimit > 0.9) {
     return "#28a745";
@@ -227,63 +112,6 @@ const getColorBasedOnTime = (timeLeft, timeLimit) => {
     return "#FF3D00";
   } else {
     return "#dc3545";
-  }
-};
-
-const CorrectButton = ({
-  hideIfTooManyPasses,
-  disableForASecond,
-  handleChangeWordCorrect
-}) => {
-  const isOnlyButtonStyle = hideIfTooManyPasses ? "column-centered" : "";
-  if (disableForASecond) {
-    return (
-      <button
-        className={`image-button correct-button 
-        correct-button-disabled ${isOnlyButtonStyle}`}
-      >
-        <img src="/icons/checkbox-marked-circle.svg" alt="correct button" />
-      </button>
-    );
-  } else {
-    return (
-      <button
-        className={`image-button correct-button ${isOnlyButtonStyle}`}
-        onClick={handleChangeWordCorrect}
-      >
-        <img src="/icons/checkbox-marked-circle.svg" alt="correct button" />
-      </button>
-    );
-  }
-};
-
-const PassButton = ({
-  hideIfTooManyPasses,
-  disableForASecond,
-  handleChangeWordIncorrect
-}) => {
-  if (!hideIfTooManyPasses) {
-    if (disableForASecond) {
-      return (
-        <button
-          className="image-button pass-button pass-button-disabled"
-          onClick={handleChangeWordIncorrect}
-        >
-          <img src="/icons/close-circle.svg" alt="pass button" />
-        </button>
-      );
-    } else {
-      return (
-        <button
-          className="image-button pass-button"
-          onClick={handleChangeWordIncorrect}
-        >
-          <img src="/icons/close-circle.svg" alt="pass button" />
-        </button>
-      );
-    }
-  } else {
-    return null;
   }
 };
 
@@ -311,7 +139,8 @@ export default class Game extends Component {
       gameIsActive: false,
       disableBeginButton: false,
       disableForASecond: false,
-      alertIsOpen: false
+      alertIsOpen: false,
+      gameIsFinished: false
     };
     document.title = getWord("title-game", props.locale);
   }
@@ -405,6 +234,7 @@ export default class Game extends Component {
   resetForNextRound = () => {
     this.setState({
       gameIsActive: false,
+      gameIsFinished: this.state.roundNr - 1 === this.props.nrOfRounds,
       hideIfTooManyPasses: this.props.nrOfPassesLimit === 0,
       currentlyPassed: 0,
       timeLeft: this.props.timeLimit,
@@ -434,7 +264,7 @@ export default class Game extends Component {
   };
 
   render = () => {
-    const { locale, nrOfRounds, timeLimit } = this.props;
+    const { locale, timeLimit } = this.props;
 
     const {
       gameIsActive,
@@ -445,54 +275,118 @@ export default class Game extends Component {
       currentWord,
       timeLeft,
       disableForASecond,
-      hideIfTooManyPasses
+      hideIfTooManyPasses,
+      gameIsFinished
     } = this.state;
 
     if (!gameIsActive) {
-      if (roundNr - 1 === nrOfRounds) {
-        return <GameIsFinished locale={locale} teams={teams} />;
+      if (gameIsFinished) {
+        return (
+          <Layout>
+            <Title locale={locale} />
+            <TeamPoints locale={locale} teams={teams} />
+            <div className="begin-button">
+              <Button
+                component={Link}
+                to="/"
+                variant="contained"
+                color="primary"
+                size="large"
+              >
+                {getWord("playAgain", locale)}?
+              </Button>
+            </div>
+          </Layout>
+        );
       } else {
         return (
           <Layout>
             <Title locale={locale} />
-            <hr />
             <CurrentTeamText currentTeam={currentTeam} />
             <RoundText locale={locale} roundNr={roundNr} />
-            <hr />
             <TeamPoints locale={locale} teams={teams} />
-            <BeginButton
-              locale={locale}
-              disableBeginButton={disableBeginButton}
-              startGame={this.startGame}
-            />
-            <GiveUpButton
+            <div className="begin-button">
+              <Button
+                disabled={disableBeginButton}
+                color="primary"
+                variant="contained"
+                onClick={() => this.startGame()}
+              >
+                {getWord("begin", locale)}
+              </Button>
+            </div>
+            <Button
+              variant="contained"
+              onClick={this.handleAlertClickOpen}
+              style={{
+                background: "#FB4049",
+                marginTop: 15,
+                "&:hover": {
+                  background: "#F4131E"
+                }
+              }}
+              color="primary"
+            >
+              {getWord("giveUp", locale)}
+            </Button>
+            <AlertDialog
               locale={locale}
               alertIsOpen={this.state.alertIsOpen}
-              handleOpen={this.handleAlertClickOpen}
               handleClose={this.handleAlertClickClose}
             />
           </Layout>
         );
       }
     }
-
     return (
       <Layout>
         <Title locale={locale} />
-        <hr />
         <CurrentTeamText currentTeam={currentTeam} />
         <RoundText locale={locale} roundNr={roundNr} />
-        <CurrentTeamPoints locale={locale} currentTeam={currentTeam} />
-        <hr />
-        <TheWord currentWord={currentWord} />
-        <hr />
-        <ActionButtons
-          hideIfTooManyPasses={hideIfTooManyPasses}
-          disableForASecond={disableForASecond}
-          handleChangeWordCorrect={this.handleChangeWordCorrect}
-          handleChangeWordIncorrect={this.handleChangeWordIncorrect}
-        />
-        <TimeLeft timeLeft={timeLeft} timeLimit={timeLimit} />
+        <h4 className="score-text">
+          {`${getWord("currentTeamPoints", locale)} ${currentTeam.points}`}
+        </h4>
+        <h1 className="the-word">{currentWord}</h1>
+        <div className="button-grid-game">
+          <button
+            className={classNames("image-button", "correct-button", {
+              "column-centered": hideIfTooManyPasses,
+              "button-disabled": disableForASecond
+            })}
+            onClick={this.handleChangeWordCorrect}
+          >
+            <img src="/icons/checkbox-marked-circle.svg" alt="correct button" />
+          </button>
+          <button
+            className={classNames("image-button", "pass-button", {
+              hidden: hideIfTooManyPasses,
+              "button-disabled": disableForASecond
+            })}
+            onClick={this.handleChangeWordIncorrect}
+          >
+            <img src="/icons/close-circle.svg" alt="pass button" />
+          </button>
+        </div>
+        <div className="time-left-container">
+          <CircularProgress
+            thickness={4.5}
+            max={1}
+            variant="static"
+            style={{
+              color: getColorBasedOnTime(timeLeft, timeLimit)
+            }}
+            value={(timeLeft / timeLimit) * 100}
+            size={100}
+          />
+          <h3
+            className="time-left"
+            style={{
+              color: getColorBasedOnTime(timeLeft, timeLimit)
+            }}
+          >
+            {timeLeft}s
+          </h3>
+        </div>
       </Layout>
     );
   };
