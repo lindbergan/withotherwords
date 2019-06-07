@@ -97,7 +97,7 @@ export class WelcomeScreen extends Component {
           message={
             <span className="snackbar-span">
               <InfoIcon />
-              <span>Add me to your home screen!</span>
+              <span>{getWord("add2HomeScreen", locale)}</span>
             </span>
           }
           open={this.state.snackbarIsOpen}
