@@ -1,75 +1,79 @@
-.team-text, .round-text, .score-text {
-    text-align: center;
-    padding: 0;
-    margin: 10px;
+.team-text,
+.round-text,
+.score-text {
+  text-align: center;
+  padding: 0;
+  margin: 10px;
 }
 
 .begin-button {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 .h-v-centered {
-    top: 50%;
+  top: 50%;
 }
 
 hr {
-    width: 100%;
-    margin: 5;
-    padding: 0;
+  width: 100%;
+  margin: 5;
+  padding: 0;
 }
 
 .image-button {
-    background: transparent;
-    border: 0;
-    grid-row-start: 1;
-    width: inherit;
-    cursor: pointer;
+  background: transparent;
+  border: 0;
+  grid-row-start: 1;
+  width: inherit;
+  cursor: pointer;
+  outline: 0;
 }
 
 .image-button > img {
-    width: inherit;
-    height: inherit;
+  width: inherit;
+  height: inherit;
 }
 
 .correct-button {
-    justify-self: right;
-    margin-right: 10px;
-    grid-column-start: 1;
-}
-
-.correct-button-disabled {
-    opacity: 0.5;
+  justify-self: right;
+  margin-right: 10px;
+  grid-column-start: 1;
 }
 
 .pass-button {
-    justify-self: left;
-    margin-left: 10px;
-    grid-column-start: 2;
+  justify-self: left;
+  margin-left: 10px;
+  grid-column-start: 2;
 }
 
-.pass-button-disabled {
-    opacity: 0.5;
+.button-disabled {
+  opacity: 0.5;
 }
 
 .column-centered {
-    justify-self: center;
+  justify-self: center;
 }
 
 .root .button-grid-game {
-    grid-template-columns: 50px 50px;
-    grid-column: 2;
-    grid-row: 1;
-    grid-column-gap: 25px;
+  grid-template-columns: 50px 50px;
+  grid-column: 2;
+  grid-row: 1;
+  grid-column-gap: 25px;
 }
 
 .the-word {
-    text-align: center;
-    font-family: 'Cinzel';
+  text-align: center;
+  font-family: "Arial";
+  text-transform: capitalize;
 }
 
 .time-left-container {
-    margin-top: 15px;
-    justify-self: center;
-    text-align: center;
-    text-size-adjust: 80%;
+  margin-top: 15px;
+  justify-self: center;
+  text-align: center;
+  text-size-adjust: 80%;
+}
+
+.hidden {
+  display: none;
 }

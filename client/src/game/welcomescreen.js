@@ -1,79 +1,58 @@
-import React from 'react';
+import React from "react";
 
-import {Link} from 'react-router-dom';
-import {Button} from '@material-ui/core';
-import {getWord} from '../utils/localizer';
+import { Link } from "react-router-dom";
+import { Button } from "@material-ui/core";
+import { getWord } from "../utils/localizer";
 
-import {initGa} from './ga';
-import {Layout} from './layout';
-import {sweLocale, engLocale} from '../utils/localizer';
+import classNames from "classnames";
 
-import '../css/welcomescreen.css';
-import '../css/global.css';
+import { Layout } from "./layout";
+import { sweLocale, engLocale } from "../utils/localizer";
 
-const isUsSelected = locale =>
-  locale === engLocale ? 'selected' : 'not-selected';
-const isSweSelected = locale =>
-  locale === sweLocale ? 'selected' : 'not-selected';
+import "../css/welcomescreen.css";
+import "../css/global.css";
 
-const usFlagUrl = 'icons/united-states-of-america-flag-round-icon-64.png';
-const sweFlagUrl = 'icons/sweden-flag-round-icon-64.png';
+const usFlagUrl = "icons/united-states-of-america-flag-round-icon-64.png";
+const sweFlagUrl = "icons/sweden-flag-round-icon-64.png";
 
-const UsFlag = ({locale, changeLanguage}) => (
-  <img
-    src={usFlagUrl}
-    className={`us-flag grid-item image-grid ${isUsSelected(locale)}`}
-    onClick={() => changeLanguage(engLocale)}
-    alt="american flag">
-  </img>
-);
+export const WelcomeScreen = ({ locale, changeLanguage }) => {
+  document.title = getWord("title-home", locale);
 
-const SweFlag = ({locale, changeLanguage}) => (
-  <img
-    src={sweFlagUrl}
-    className={`swe-flag grid-item image-grid ${isSweSelected(locale)}`}
-    onClick={() => changeLanguage(sweLocale)}
-    alt="swedish flag">
-  </img>
-);
-
-const GetStartedDescription = ({locale}) => (
-  <p className="grid-item text-grid starting-description">
-    {getWord('getStartedText', locale)}
-  </p>
-);
-
-const ChooseLanguageButtons = ({locale, changeLanguage}) => (
-  <div className="button-grid-container">
-    <GetStartedDescription locale={locale}/>
-    <SweFlag locale={locale} changeLanguage={changeLanguage}/>
-    <UsFlag locale={locale} changeLanguage={changeLanguage}/>
-  </div>
-);
-
-const PlayButton = ({locale}) => (
-  <div>
-    <Button component={Link}
-      to="/settings"
-      variant="contained"
-      color="primary"
-      size="large">
-      {getWord('startPlayingText', locale)}
-    </Button>
-  </div>
-);
-
-const Title = ({locale}) => (
-  <h1 className="title">{getWord('welcomeText', locale)}</h1>
-);
-
-export const WelcomeScreen = ({locale, changeLanguage}) => {
-  initGa();
-  document.title = getWord('title-home', locale);
   return (
-    <Layout showPhoneImage={false}>
-      <Title locale={locale}/>
-      <ChooseLanguageButtons locale={locale} changeLanguage={changeLanguage}/>
-      <PlayButton locale={locale}/>
-    </Layout>);
+    <Layout>
+      <h1 className="title">{getWord("welcomeText", locale)}</h1>
+      <div className="button-grid-container">
+        <p className="grid-item text-grid starting-description">
+          {getWord("getStartedText", locale)}
+        </p>
+        <img
+          src={sweFlagUrl}
+          className={classNames("swe-flag", "grid-item", "image-grid", {
+            selected: locale === sweLocale,
+            notSelected: locale !== sweLocale
+          })}
+          onClick={() => changeLanguage(sweLocale)}
+          alt="swedish flag"
+        />
+        <img
+          src={usFlagUrl}
+          className={classNames("us-flag grid-item image-grid", {
+            selected: locale === engLocale,
+            notSelected: locale !== engLocale
+          })}
+          onClick={() => changeLanguage(engLocale)}
+          alt="american flag"
+        />
+      </div>
+      <Button
+        component={Link}
+        to="/settings"
+        variant="contained"
+        color="primary"
+        size="large"
+      >
+        {getWord("startPlayingText", locale)}
+      </Button>
+    </Layout>
+  );
 };
