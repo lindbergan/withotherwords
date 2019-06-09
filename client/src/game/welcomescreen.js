@@ -44,28 +44,38 @@ function eitherAndroidOrIOS() {
 export class WelcomeScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { snackbarIsOpen: false };
+    this.state = { appSnackbarIsOpen: false, infoSnackbarIsOpen: false };
   }
 
   componentDidMount() {
-    if (
+    const showAppSnackbar =
       !window.matchMedia("(display-mode: fullscreen)").matches &&
-      eitherAndroidOrIOS()
-    ) {
+      eitherAndroidOrIOS();
+    if (showAppSnackbar) {
       this.timeIn = setTimeout(
-        () => this.setState({ snackbarIsOpen: true }),
+        () => this.setState({ appSnackbarIsOpen: true }),
         500
       );
       this.timeOut = setTimeout(
-        () => this.setState({ snackbarIsOpen: false }),
+        () => this.setState({ appSnackbarIsOpen: false }),
         5000
       );
     }
+    this.infoSnackbarTimeIn = setTimeout(
+      () => this.setState({ infoSnackbarIsOpen: true }),
+      showAppSnackbar ? 5500 : 500
+    );
+    this.infoSnackbarTimeOut = setTimeout(
+      () => this.setState({ infoSnackbarIsOpen: false }),
+      showAppSnackbar ? 5500 + 5000 : 5000
+    );
   }
 
   componentWillUnmount() {
     clearTimeout(this.timeIn);
     clearTimeout(this.timeOut);
+    clearTimeout(this.infoSnackbarTimeIn);
+    clearTimeout(this.infoSnackbarTimeOut);
   }
 
   render() {
@@ -118,13 +128,31 @@ export class WelcomeScreen extends Component {
               <span>{getWord("add2HomeScreen", locale)}</span>
             </span>
           }
-          open={this.state.snackbarIsOpen}
+          open={this.state.appSnackbarIsOpen}
           action={[
             <IconButton key="info" aria-label="Info" color="inherit">
               <ShareIcon />
             </IconButton>
           ]}
         />
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.whenwasit.online?from=medandraord"
+        >
+          <Snackbar
+            classes={{
+              root: "snackbar"
+            }}
+            message={
+              <span className="snackbar-span">
+                <InfoIcon />
+                <span>{getWord("whenwasit", locale)}</span>
+              </span>
+            }
+            open={this.state.infoSnackbarIsOpen}
+          />
+        </a>
       </React.Fragment>
     );
   }
