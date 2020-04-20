@@ -61,14 +61,14 @@ export class WelcomeScreen extends Component {
         5000
       );
     }
-    this.infoSnackbarTimeIn = setTimeout(
-      () => this.setState({ infoSnackbarIsOpen: true }),
-      showAppSnackbar ? 5500 : 500
-    );
-    this.infoSnackbarTimeOut = setTimeout(
-      () => this.setState({ infoSnackbarIsOpen: false }),
-      showAppSnackbar ? 5500 + 5000 : 5000
-    );
+    // this.infoSnackbarTimeIn = setTimeout(
+    //   () => this.setState({ infoSnackbarIsOpen: true }),
+    //   showAppSnackbar ? 5500 : 500
+    // );
+    // this.infoSnackbarTimeOut = setTimeout(
+    //   () => this.setState({ infoSnackbarIsOpen: false }),
+    //   showAppSnackbar ? 5500 + 5000 : 5000
+    // );
   }
 
   componentWillUnmount() {
@@ -93,7 +93,7 @@ export class WelcomeScreen extends Component {
               src={sweFlagUrl}
               className={classNames("swe-flag", "grid-item", "image-grid", {
                 selected: locale === sweLocale,
-                notSelected: locale !== sweLocale
+                notSelected: locale !== sweLocale,
               })}
               onClick={() => changeLanguage(sweLocale)}
               alt="swedish flag"
@@ -102,7 +102,7 @@ export class WelcomeScreen extends Component {
               src={usFlagUrl}
               className={classNames("us-flag grid-item image-grid", {
                 selected: locale === engLocale,
-                notSelected: locale !== engLocale
+                notSelected: locale !== engLocale,
               })}
               onClick={() => changeLanguage(engLocale)}
               alt="american flag"
@@ -113,14 +113,13 @@ export class WelcomeScreen extends Component {
             to="/settings"
             variant="contained"
             color="primary"
-            size="large"
-          >
+            size="large">
             {getWord("startPlayingText", locale)}
           </Button>
         </Layout>
         <Snackbar
           classes={{
-            root: "snackbar"
+            root: "snackbar",
           }}
           message={
             <span className="snackbar-span">
@@ -132,17 +131,16 @@ export class WelcomeScreen extends Component {
           action={[
             <IconButton key="info" aria-label="Info" color="inherit">
               <ShareIcon />
-            </IconButton>
+            </IconButton>,
           ]}
         />
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://www.whenwasit.online?from=medandraord"
-        >
+          href="https://www.whenwasit.online?from=medandraord">
           <Snackbar
             classes={{
-              root: "snackbar"
+              root: "snackbar",
             }}
             message={
               <span className="snackbar-span">
