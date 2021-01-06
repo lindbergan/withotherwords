@@ -7,14 +7,37 @@ import engTextFile from "../locales/eng-words";
 export const sweLocale = "sv-SE";
 export const engLocale = "en-US";
 
-export const getWord = (word, locale) => {
+const swedishWords = Object.values(sweTextFile)
+const englishWords = Object.values(engTextFile)
+
+const previousWordIds = [];
+
+function getRandomId(locale) {
+  function getRandomUnseenId(words) {
+    const getRandomIndex = (words) => parseInt(Math.random() * words.length)
+    let i = getRandomIndex(words);
+    while (previousWordIds.includes(i)) i = getRandomIndex(words);
+    return i;
+  }
+
   switch (locale) {
     case sweLocale:
-      return Swedish[word];
+      return getRandomUnseenId(swedishWords)
     case engLocale:
-      return English[word];
+      return getRandomUnseenId(englishWords)
     default:
-      return English[word];
+      return getRandomUnseenId(swedishWords)
+  }
+}
+
+export const getRandomWord = (locale) => {
+  switch (locale) {
+    case sweLocale:
+      return swedishWords[getRandomId(locale)]
+    case engLocale:
+      return englishWords[getRandomId(locale)]
+    default:
+      return swedishWords[getRandomId(locale)]
   }
 };
 
@@ -25,6 +48,6 @@ export const getCorrectTextFile = locale => {
     case sweLocale:
       return sweTextFile;
     default:
-      return engTextFile;
+      return sweTextFile;
   }
 };
