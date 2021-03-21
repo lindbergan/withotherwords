@@ -1,4 +1,5 @@
 import { Game } from "./game"
+import Store from "./index"
 
 export const Teams = {
   state: {
@@ -52,6 +53,7 @@ export const Teams = {
     nextTeam(state) {
       if (state.currentTeamIndex + 1 >= state.teams.length) {
         state.currentTeamIndex = 0
+        Store.dispatch("nextRound")
       } else state.currentTeamIndex += 1
     },
 

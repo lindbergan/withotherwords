@@ -6,14 +6,17 @@
     <v-row v-show="isGameActive">
       <v-col>
 
-        <div class="d-flex align-center justify-center">
+        <v-card class="d-flex align-center justify-center pa-10 ma-10">
           <div class="d-flex flex-column gap-2">
             <h1>{{ currentTeamName | capitalize }}</h1>
+            <div>Round: <b>{{ roundNr }}</b></div>
             <div>Category <b>Movie stars</b></div>
             <div><b>{{ currentTeamPoints }} points</b></div>
 
             <div>
               <countdowner
+                :time-limit="timeLimit"
+                @done="roundIsOver"
                 class="text-h5"
                 ref="gameTimerCounter">
               </countdowner>
@@ -27,22 +30,22 @@
 
             <div class="d-flex justify-center align-center gap-6">
               <v-btn
-                @click="passedWord(currentWord)"
-                style="width: 150px; height: 50px"
+                @click="passedWord(currentWord); nextWord()"
+                class="big-button"
                 outlined
                 color="error">
                 Pass
               </v-btn>
               <v-btn
-                @click="correctWord(currentWord)"
-                style="width: 150px; height: 50px"
+                @click="correctWord(currentWord); nextWord()"
+                class="big-button"
                 outlined
                 color="success">
                 Correct
               </v-btn>
             </div>
           </div>
-        </div>
+        </v-card>
 
       </v-col>
     </v-row>
@@ -52,21 +55,26 @@
     <v-row v-show="!isGameActive">
       <v-col>
 
-        <div class="d-flex align-center justify-center">
+        <v-card class="d-flex align-center justify-center pa-10 ma-10">
           <div class="d-flex flex-column gap-2">
             <h1>Get ready!</h1>
-            <div><b>Team 1</b></div>
-            <div>You are in the lead with <b>16 points</b></div>
+            <div>Round: <b>{{ roundNr }}</b></div>
+            <div><b>{{ currentTeamName | capitalize }}</b></div>
+            <div>You have <b>{{ currentTeamPoints }} points</b></div>
             <div>Next rounds category is <b>Movie stars</b></div>
             <div class="d-flex align-center justify-center gap-2">
-              <v-btn
-                outlined
-              >
-                Change category
-              </v-btn>
+<!--              <v-btn-->
+<!--                color="warning"-->
+<!--                outlined-->
+<!--              >-->
+<!--                Change category-->
+<!--              </v-btn>-->
               <v-btn
                 :loading="roundIsStarting"
                 @click="startRound"
+                color="success"
+                class="big-button"
+                large
                 outlined
               >
                 Begin
@@ -74,15 +82,16 @@
             </div>
 
             <div v-show="roundIsStarting">
-              <span class="text-h5 mr-4">Round is starting in</span>
+              <span class="text-h5 mr-2">Round is starting in</span>
               <countdowner
                 :time-limit="3"
+                @done="roundHasStarted"
                 class="text-h5"
                 ref="beginRoundCounter">
               </countdowner>
             </div>
           </div>
-        </div>
+        </v-card>
 
       </v-col>
 
@@ -109,7 +118,7 @@ export default {
     timeLeft: 30.0,
     timer: null,
 
-    isGameActive: true,
+    isGameActive: false,
     roundIsStarting: false,
 
     locale: null
@@ -117,7 +126,9 @@ export default {
 
   computed: {
     ...mapGetters([
-      "currentTeam"
+      "currentTeam",
+      "timeLimit",
+      "roundNr",
     ]),
 
     currentTeamName() {
@@ -135,17 +146,28 @@ export default {
       "correctWord",
       "passedWord",
       "wordMissed",
+      "nextTeam",
     ]),
 
     startRound() {
       this.roundIsStarting = true
       this.$refs.beginRoundCounter.startTimer()
+    },
 
-      setTimeout(() => {
-        this.roundIsStarting = false
-        this.isGameActive = true
-        this.$refs.gameTimerCounter.startTimer()
-      }, 3000)
+    roundHasStarted() {
+      this.roundIsStarting = false
+      this.isGameActive = true
+      this.$refs.gameTimerCounter.startTimer()
+    },
+
+    roundIsOver() {
+      this.isGameActive = false
+      this.nextWord()
+      this.nextTeam()
+    },
+
+    nextWord() {
+      this.currentWord = getRandomWord()
     },
 
     getLocale() {
@@ -157,7 +179,7 @@ export default {
     if (!this.currentTeam) this.testInit()
 
     this.locale = this.getLocale()
-    this.currentWord = getRandomWord()
+    this.nextWord()
   },
 
   filters: {

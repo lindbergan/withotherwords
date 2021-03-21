@@ -66,6 +66,7 @@ export default {
       this.timer = setInterval(() => {
         if (this.timeLeft - 1 === 0) {
           clearInterval(this.timer)
+          this.$emit("done")
         }
         this.timeLeft -= 1
       }, this.timeStep * 1000)
