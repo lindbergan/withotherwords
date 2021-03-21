@@ -1,3 +1,5 @@
+import Store from "./index"
+
 export const Game = {
   state: {
     passLimit: 2,
@@ -10,14 +12,14 @@ export const Game = {
 
     roundNr: 1,
 
-    isActive: false,
-
-    isDone: false,
+    isDone: true,
   },
 
   getters: {
     timeLimit: state => state.timeLimit,
     roundNr: state => state.roundNr,
+    isDone: state => state.isDone,
+    passLimit: state => state.passLimit,
   },
 
   mutations: {
@@ -27,11 +29,29 @@ export const Game = {
       }
       state.roundNr += 1
     },
+
+    saveSettings(state, settings) {
+      state.passLimit = settings.passLimit
+      state.teamAmount = settings.teamAmount
+      state.timeLimit = settings.timeLimit
+      state.roundLimit = settings.roundLimit
+
+      state.roundNr = 1
+      state.isDone = false
+
+      for (let i = 0; i < state.teamAmount; i++) {
+        Store.dispatch("addTeam")
+      }
+    },
   },
 
   actions: {
     nextRound({ commit }) {
       commit("nextRound")
     },
+
+    saveSettings({ commit }, settings) {
+      commit("saveSettings", settings)
+    }
   },
 }

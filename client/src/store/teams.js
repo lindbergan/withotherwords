@@ -13,14 +13,20 @@ export const Teams = {
 
       return state.teams[state.currentTeamIndex]
     },
+
+    winningTeams: state => {
+      const maxPoints = Math.max(...state.teams.map(({ points }) => points))
+
+      return state.teams.filter(({ points }) => maxPoints === points)
+    }
   },
 
   mutations: {
     addTeam(state, team) {
-      if (this.teams.length === 0) {
-        this.currentTeamIndex = 0
+      if (state.teams.length === 0) {
+        state.currentTeamIndex = 0
       }
-      this.teams.push(team)
+      state.teams.push(team)
     },
 
     changeTeamScore(state, payload) {
@@ -51,6 +57,11 @@ export const Teams = {
     },
 
     nextTeam(state) {
+      const team = state.teams[state.currentTeamIndex]
+
+      /* Reset team */
+      team.passedNr = 0
+
       if (state.currentTeamIndex + 1 >= state.teams.length) {
         state.currentTeamIndex = 0
         Store.dispatch("nextRound")
@@ -61,19 +72,19 @@ export const Teams = {
       state.teams = [
         {
           name: "Test team 1",
-          points: 10,
-          questionsSeen: [],
-          correctQuestions: [],
+          points: 2,
+          questionsSeen: ["förlegad","duktig"],
+          correctQuestions: ["förlegad","duktig"],
           passedQuestions: [],
-          passedNr: 1,
+          passedNr: 0,
         },
         {
           name: "Test team 2",
-          points: 21,
-          questionsSeen: [],
+          points: 0,
+          questionsSeen: ["skamfilad","tunnel"],
           correctQuestions: [],
-          passedQuestions: [],
-          passedNr: 2,
+          passedQuestions: ["skamfilad","tunnel"],
+          passedNr: 0,
         }
       ]
       state.currentTeamIndex = 0
@@ -81,8 +92,10 @@ export const Teams = {
   },
   actions: {
     addTeam({ commit, state }, team) {
+      const teamName = team ? team.name : `Team ${state.teams.length + 1}`
+
       const newTeam = {
-        ...team,
+        name: teamName,
         points: 0,
         questionsSeen: [],
         correctQuestions: [],
