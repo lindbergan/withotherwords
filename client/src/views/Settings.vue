@@ -3,47 +3,66 @@
     <v-col :cols="8">
       <h1 class="text-center mb-5">Inställningar</h1>
       <v-row class="d-flex flex-column justify-center align-center">
-        <v-col :xs="2" :sm="2" :md="3" :lg="3">
-          <v-select
-            v-model="amtPlayers"
-            :items="amtPlayersItems"
-            outlined
-            dense
-            hide-detials
-            label="Antal spelare"
-          >
-          </v-select>
-          <v-select
-            v-model="amtRounds"
-            :items="amtRoundsItems"
-            outlined
-            dense
-            hide-detials
-            label="Antal rounds"
-          >
-          </v-select>
-          <v-select
-            v-model="amtTime"
-            :items="amtTimeItems"
-            outlined
-            dense
-            hide-detials
-            label="Antal time"
-          >
-          </v-select>
-          <v-select
-            v-model="amtPasses"
-            :items="amtPassesItems"
-            outlined
-            dense
-            hide-detials
-            label="Antal passes"
-          >
-          </v-select>
+        <v-col>
+          <div class="d-flex justify-center align-center">
+            <v-select
+              v-model="amtPlayers"
+              :items="amtPlayersItems"
+              outlined
+              dense
+              hide-detials
+              label="Antal spelare"
+              class="settings-select"
+            >
+            </v-select>
+          </div>
+          <div class="d-flex justify-center align-center">
+            <v-select
+              v-model="amtRounds"
+              :items="amtRoundsItems"
+              outlined
+              dense
+              hide-detials
+              label="Antal rounds"
+              class="settings-select"
+            >
+            </v-select>
+          </div>
+          <div class="d-flex justify-center align-center">
+            <v-select
+              v-model="amtTime"
+              :items="amtTimeItems"
+              outlined
+              dense
+              hide-detials
+              label="Antal time"
+              class="settings-select"
+            >
+            </v-select>
+          </div>
+          <div class="d-flex justify-center align-center">
+            <v-select
+              v-model="amtPasses"
+              :items="amtPassesItems"
+              outlined
+              dense
+              hide-detials
+              label="Antal passes"
+              class="settings-select"
+            >
+            </v-select>
+          </div>
         </v-col>
-        <v-col :xs="6" :sm="6" :md="6" :lg="6">
-          <v-btn to="/game" depressed large block>Färdig</v-btn>
-        </v-col>
+        <div class="d-flex align-center justify-center">
+          <v-btn
+            to="/game"
+            outlined
+            large
+            block
+            class="settings-finished-btn">
+            Färdig
+          </v-btn>
+        </div>
       </v-row>
     </v-col>
   </v-row>
@@ -69,3 +88,14 @@ export default {
   }),
 };
 </script>
+<style>
+.settings-select {
+  width: 200px;
+  max-width: 200px !important;
+}
+
+.settings-finished-btn {
+  width: 200px;
+  max-width: 200px !important;
+}
+</style>

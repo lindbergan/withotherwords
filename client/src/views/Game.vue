@@ -1,29 +1,174 @@
 <template>
-  <v-row class="justify-center align-center">
-    <h1 style="text-transform: uppercase">{{ currentWord }}</h1>
+  <v-row>
+
+    <!------------------ Game is active ---------------->
+
+    <v-row v-show="isGameActive">
+      <v-col>
+
+        <div class="d-flex align-center justify-center">
+          <div class="d-flex flex-column gap-2">
+            <h1>{{ currentTeamName | capitalize }}</h1>
+            <div>Category <b>Movie stars</b></div>
+            <div><b>{{ currentTeamPoints }} points</b></div>
+
+            <div>
+              <countdowner
+                class="text-h5"
+                ref="gameTimerCounter">
+              </countdowner>
+            </div>
+
+            <div class="d-flex flex-column justify-center align-center">
+              <span class="text-h3">
+                {{ currentWord | capitalize }}
+              </span>
+            </div>
+
+            <div class="d-flex justify-center align-center gap-6">
+              <v-btn
+                @click="passedWord(currentWord)"
+                style="width: 150px; height: 50px"
+                outlined
+                color="error">
+                Pass
+              </v-btn>
+              <v-btn
+                @click="correctWord(currentWord)"
+                style="width: 150px; height: 50px"
+                outlined
+                color="success">
+                Correct
+              </v-btn>
+            </div>
+          </div>
+        </div>
+
+      </v-col>
+    </v-row>
+
+    <!------------------ Game is stand by ---------------->
+
+    <v-row v-show="!isGameActive">
+      <v-col>
+
+        <div class="d-flex align-center justify-center">
+          <div class="d-flex flex-column gap-2">
+            <h1>Get ready!</h1>
+            <div><b>Team 1</b></div>
+            <div>You are in the lead with <b>16 points</b></div>
+            <div>Next rounds category is <b>Movie stars</b></div>
+            <div class="d-flex align-center justify-center gap-2">
+              <v-btn
+                outlined
+              >
+                Change category
+              </v-btn>
+              <v-btn
+                :loading="roundIsStarting"
+                @click="startRound"
+                outlined
+              >
+                Begin
+              </v-btn>
+            </div>
+
+            <div v-show="roundIsStarting">
+              <span class="text-h5 mr-4">Round is starting in</span>
+              <countdowner
+                :time-limit="3"
+                class="text-h5"
+                ref="beginRoundCounter">
+              </countdowner>
+            </div>
+          </div>
+        </div>
+
+      </v-col>
+
+    </v-row>
   </v-row>
 </template>
 <script>
 import { getRandomWord } from "../utils/localizer";
+import countdowner from "../components/countdowner"
+import "../assets/global.scss"
+import { mapGetters, mapActions } from "vuex"
 
 export default {
-  name: "Settings",
+  name: "Game",
 
-  components: {},
+  components: {
+    countdowner
+  },
 
   data: () => ({
     currentWord: null,
-    locale: null,
+
+    totalTime: 30.0,
+    timeLeft: 30.0,
+    timer: null,
+
+    isGameActive: true,
+    roundIsStarting: false,
+
+    locale: null
   }),
 
+  computed: {
+    ...mapGetters([
+      "currentTeam"
+    ]),
+
+    currentTeamName() {
+      return this.currentTeam ? this.currentTeam.name : null
+    },
+
+    currentTeamPoints() {
+      return this.currentTeam ? this.currentTeam.points : null
+    },
+  },
+
   methods: {
+    ...mapActions([
+      "testInit",
+      "correctWord",
+      "passedWord",
+      "wordMissed",
+    ]),
+
+    startRound() {
+      this.roundIsStarting = true
+      this.$refs.beginRoundCounter.startTimer()
+
+      setTimeout(() => {
+        this.roundIsStarting = false
+        this.isGameActive = true
+        this.$refs.gameTimerCounter.startTimer()
+      }, 3000)
+    },
+
     getLocale() {
       return "sv-SE";
     },
   },
 
   mounted() {
-    (this.locale = this.getLocale()), (this.currentWord = getRandomWord());
+    if (!this.currentTeam) this.testInit()
+
+    this.locale = this.getLocale()
+    this.currentWord = getRandomWord()
+  },
+
+  filters: {
+    capitalize(val) {
+      if (!val) return ""
+
+      return val.toString()[0].toUpperCase() + val.toString().slice(1)
+    },
   },
 };
 </script>
+<style scoped>
+
+</style>

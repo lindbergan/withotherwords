@@ -1,0 +1,23 @@
+@for $i from 0 through 10 {
+  .gap-#{$i} {
+    gap: #{$i * 4}px;
+  }
+  .ua-safari {
+    .d-flex.gap-#{$i} > * {
+      margin-right: #{$i * 4}px;
+    }
+
+    .d-flex.gap-#{$i} > *:last-child {
+      margin-right: 0  !important;
+    }
+
+    .d-flex.flex-column.gap-#{$i} > * {
+      margin-bottom: #{$i * 4}px;
+      margin-right: 0;
+    }
+
+    .d-flex.flex-column.gap-#{$i} > *:last-child {
+      margin-bottom: 0  !important;
+    }
+  }
+}
